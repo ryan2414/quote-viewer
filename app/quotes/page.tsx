@@ -21,42 +21,73 @@ export default function QuotesPage() {
   const displayedQuotes = activeTab === 'all' ? quotes : favoriteQuotes;
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-950">
-      <div className="max-w-6xl mx-auto px-4 py-10">
-        {/* 페이지 제목 */}
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
-          명언 모음
-        </h1>
+    /* 명언 목록 페이지: 배경색 통일, 최소 높이 확보 */
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
 
-        {/* 탭 네비게이션 */}
-        <div className="flex justify-center mb-8">
-          <div className="flex bg-gray-100 dark:bg-gray-800 rounded-xl p-1 gap-1">
+        {/* 페이지 헤더: 제목 + 부제목 계층 구조 */}
+        <div className="text-center mb-8 sm:mb-10">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white tracking-tight">
+            명언 모음
+          </h1>
+          <p className="mt-2 text-sm sm:text-base text-gray-500 dark:text-gray-400">
+            마음에 와닿는 명언을 찾아 저장해 보세요
+          </p>
+        </div>
+
+        {/* 탭 네비게이션: 전체 / 즐겨찾기 */}
+        <div className="flex justify-center mb-8 sm:mb-10">
+          <div
+            className="flex bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-1 gap-1 shadow-sm"
+            role="tablist"
+            aria-label="명언 목록 필터"
+          >
+            {/* 전체 탭 */}
             <button
+              role="tab"
+              aria-selected={activeTab === 'all'}
               onClick={() => setActiveTab('all')}
-              className={`px-6 py-2 rounded-lg font-medium text-sm transition-colors ${
+              className={`px-5 sm:px-6 py-2 rounded-lg font-medium text-xs sm:text-sm transition-all duration-150 ${
                 activeTab === 'all'
-                  ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+                  ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-sm'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800'
               }`}
             >
               전체
-              <span className="ml-2 text-xs bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-300 px-2 py-0.5 rounded-full">
+              <span
+                className={`ml-2 text-xs px-2 py-0.5 rounded-full ${
+                  activeTab === 'all'
+                    ? 'bg-white/20 dark:bg-gray-900/20 text-white dark:text-gray-900'
+                    : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400'
+                }`}
+              >
                 {quotes.length}
               </span>
             </button>
 
+            {/* 즐겨찾기 탭 */}
             <button
+              role="tab"
+              aria-selected={activeTab === 'favorites'}
               onClick={() => setActiveTab('favorites')}
-              className={`px-6 py-2 rounded-lg font-medium text-sm transition-colors ${
+              className={`px-5 sm:px-6 py-2 rounded-lg font-medium text-xs sm:text-sm transition-all duration-150 ${
                 activeTab === 'favorites'
-                  ? 'bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-sm'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
+                  ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-sm'
+                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800'
               }`}
             >
               즐겨찾기
               {/* hydration 완료 후 카운트 표시 (SSR 불일치 방지) */}
               {isHydrated && (
-                <span className="ml-2 text-xs bg-red-100 dark:bg-red-900 text-red-600 dark:text-red-300 px-2 py-0.5 rounded-full">
+                <span
+                  className={`ml-2 text-xs px-2 py-0.5 rounded-full ${
+                    activeTab === 'favorites'
+                      ? 'bg-white/20 dark:bg-gray-900/20 text-white dark:text-gray-900'
+                      : favoriteIds.length > 0
+                        ? 'bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400'
+                        : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400'
+                  }`}
+                >
                   {favoriteIds.length}
                 </span>
               )}
@@ -66,14 +97,15 @@ export default function QuotesPage() {
 
         {/* 카드 그리드 또는 빈 상태 */}
         {activeTab === 'favorites' && isHydrated && favoriteQuotes.length === 0 ? (
-          // 즐겨찾기 빈 상태 UI
-          <div className="flex flex-col items-center justify-center py-24 gap-4 text-center">
-            <div className="w-20 h-20 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+          /* 즐겨찾기 빈 상태 UI: 큰 아이콘 + 안내 문구 */
+          <div className="flex flex-col items-center justify-center py-20 sm:py-28 gap-4 text-center">
+            <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm flex items-center justify-center">
               <svg
-                className="w-10 h-10 text-gray-400"
+                className="w-10 h-10 sm:w-12 sm:h-12 text-gray-300 dark:text-gray-600"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"
@@ -83,22 +115,24 @@ export default function QuotesPage() {
                 />
               </svg>
             </div>
-            <p className="text-xl font-semibold text-gray-700 dark:text-gray-300">
-              즐겨찾기한 명언이 없습니다
-            </p>
-            <p className="text-gray-500 dark:text-gray-400 text-sm">
-              마음에 드는 명언의 하트 버튼을 눌러 저장하세요.
-            </p>
+            <div className="space-y-1">
+              <p className="text-lg sm:text-xl font-semibold text-gray-700 dark:text-gray-300">
+                즐겨찾기한 명언이 없습니다
+              </p>
+              <p className="text-gray-400 dark:text-gray-500 text-sm sm:text-base">
+                마음에 드는 명언의 하트 버튼을 눌러 저장하세요.
+              </p>
+            </div>
             <button
               onClick={() => setActiveTab('all')}
-              className="mt-2 px-5 py-2 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-lg font-medium text-sm hover:bg-gray-700 dark:hover:bg-gray-100 transition-colors"
+              className="mt-2 px-5 py-2.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl font-medium text-sm hover:bg-gray-700 dark:hover:bg-gray-100 active:bg-gray-800 dark:active:bg-gray-200 transition-colors shadow-sm"
             >
               전체 명언 보기
             </button>
           </div>
         ) : (
-          // 명언 카드 그리드
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          /* 명언 카드 그리드: 반응형 3단계 */
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
             {displayedQuotes.map((quote) => (
               <QuoteCard
                 key={quote.id}

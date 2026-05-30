@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 export default function Header() {
-  // 현재 경로로 활성 링크 결정
+  /* 현재 경로로 활성 링크 결정 */
   const pathname = usePathname();
 
   const navLinks = [
@@ -13,21 +13,41 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800">
-      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        {/* 로고 / 브랜드명 */}
+    /* 헤더: 스크롤 고정, 반투명 블러 배경으로 콘텐츠 위 부유 표현 */
+    <header className="sticky top-0 z-50 bg-white/90 dark:bg-gray-950/90 backdrop-blur-md border-b border-gray-200/80 dark:border-gray-800/80">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-4">
+
+        {/* 로고 / 브랜드명: 모바일에서 약간 작게 */}
         <Link
           href="/"
-          className="text-xl font-bold text-gray-900 dark:text-white tracking-tight hover:opacity-80 transition-opacity"
+          className="flex items-center gap-2 shrink-0"
+          aria-label="Quote Viewer 홈으로 이동"
         >
-          Quote Viewer
+          {/* 로고 아이콘: 소형 장식 요소 */}
+          <span
+            className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-gray-900 dark:bg-white flex items-center justify-center shrink-0"
+            aria-hidden="true"
+          >
+            <svg
+              className="w-4 h-4 sm:w-4 sm:h-4 text-white dark:text-gray-900"
+              fill="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+            </svg>
+          </span>
+          {/* 브랜드명: sm 미만에서는 짧게 표시 */}
+          <span className="font-bold text-gray-900 dark:text-white tracking-tight text-base sm:text-lg hover:opacity-80 transition-opacity">
+            <span className="hidden sm:inline">Quote Viewer</span>
+            <span className="sm:hidden">QV</span>
+          </span>
         </Link>
 
-        {/* 네비게이션 링크 */}
+        {/* 주요 네비게이션: 모바일/데스크톱 모두 표시 (링크 수가 적어 접기 불필요) */}
         <nav aria-label="주요 네비게이션">
           <ul className="flex items-center gap-1">
             {navLinks.map((link) => {
-              // 홈 경로는 정확히 일치, 나머지는 시작 여부로 판단
+              /* 홈 경로는 정확히 일치, 나머지는 경로 시작 여부로 활성 판단 */
               const isActive =
                 link.href === '/'
                   ? pathname === '/'
@@ -37,14 +57,18 @@ export default function Header() {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-colors duration-150 ${
                       isActive
                         ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900'
-                        : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
+                        : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white'
                     }`}
                     aria-current={isActive ? 'page' : undefined}
                   >
-                    {link.label}
+                    {/* 모바일에서 '오늘의 명언' → '오늘' 으로 단축 */}
+                    <span className="hidden sm:inline">{link.label}</span>
+                    <span className="sm:hidden">
+                      {link.href === '/' ? '오늘' : '목록'}
+                    </span>
                   </Link>
                 </li>
               );

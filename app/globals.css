@@ -1,8 +1,26 @@
 @import "tailwindcss";
 
+/* ===== 색상 CSS 변수 ===== */
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* 카드 배경 */
+  --card-bg: #ffffff;
+  --card-border: #f3f4f6;
+
+  /* 구분선 */
+  --divider: #e5e7eb;
+
+  /* 텍스트 계층 */
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+
+  /* 버튼 */
+  --btn-secondary-bg: #f3f4f6;
+  --btn-secondary-hover: #e5e7eb;
+  --btn-secondary-text: #374151;
 }
 
 @theme inline {
@@ -12,20 +30,45 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/*
+  다크 모드: prefers-color-scheme 미디어 쿼리 기반 CSS 변수 재정의
+  Tailwind CSS 4의 dark: 변형은 기본적으로 이 미디어 쿼리를 사용합니다.
+  별도의 tailwind.config.js 설정 없이 자동으로 동작합니다.
+*/
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+
+    --card-bg: #111827;
+    --card-border: #1f2937;
+
+    --divider: #1f2937;
+
+    --text-primary: #f9fafb;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+
+    /* 다크 모드 버튼 */
+    --btn-secondary-bg: #1f2937;
+    --btn-secondary-hover: #374151;
+    --btn-secondary-text: #e5e7eb;
   }
 }
 
+/* ===== 기본 바디 스타일 ===== */
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  /* 텍스트 렌더링 최적화 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
+/* ===== 유틸리티 & 애니메이션 ===== */
 @layer utilities {
+  /* 기존 fadeIn: 토스트 알림에 사용 */
   @keyframes fadeIn {
     from {
       opacity: 0;
@@ -38,6 +81,56 @@ body {
   }
 
   .animate-fadeIn {
-    animation: fadeIn 0.3s ease-out;
+    animation: fadeIn 0.25s ease-out both;
+  }
+
+  /* 카드 등장 애니메이션 */
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-slideUp {
+    animation: slideUp 0.35s ease-out both;
+  }
+
+  /* 명언 텍스트 등장 애니메이션 */
+  @keyframes quoteReveal {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-quoteReveal {
+    animation: quoteReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  /* 포커스 링 스타일 통일: 키보드 접근성 */
+  .focus-ring {
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+  }
+
+  /* 라이트 모드: 파란색 포커스 링 / 다크 모드: 더 밝은 파란색으로 시인성 확보 */
+  .focus-ring:focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .focus-ring:focus-visible {
+      outline-color: #60a5fa;
+    }
   }
 }
