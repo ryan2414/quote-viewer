@@ -14,8 +14,30 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Quote Viewer",
-  description: "매일 새로운 명언으로 영감을 받으세요",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? 'https://quote-viewer.vercel.app'),
+  title: {
+    default: 'Quote Viewer - 오늘의 명언',
+    template: '%s | Quote Viewer',
+  },
+  description: '매일 새로운 명언으로 영감을 받으세요. 위인들의 지혜로운 말을 한국어와 영어로 만나보세요.',
+  keywords: ['명언', '오늘의 명언', '영감', '동기부여', '위인 명언', 'quote', 'daily quote'],
+  openGraph: {
+    type: 'website',
+    locale: 'ko_KR',
+    url: '/',
+    siteName: 'Quote Viewer',
+    title: 'Quote Viewer - 오늘의 명언',
+    description: '매일 새로운 명언으로 영감을 받으세요.',
+    images: [{ url: '/opengraph-image', width: 1200, height: 630, alt: 'Quote Viewer' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Quote Viewer - 오늘의 명언',
+    description: '매일 새로운 명언으로 영감을 받으세요.',
+    images: ['/opengraph-image'],
+  },
+  robots: { index: true, follow: true },
+  alternates: { canonical: '/' },
 };
 
 export default function RootLayout({
