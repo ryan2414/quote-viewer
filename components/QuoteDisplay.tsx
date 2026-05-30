@@ -9,6 +9,7 @@ export default function QuoteDisplay({
   isFavorite,
   onToggleFavorite,
   onShare,
+  onNavigateToList,
 }: QuoteDisplayProps) {
   return (
     <div className="flex flex-col items-center justify-center min-h-[60vh] px-6 py-12">
@@ -60,13 +61,22 @@ export default function QuoteDisplay({
             복사
           </button>
 
-          {/* 목록 보기 링크 */}
-          <Link
-            href="/quotes"
-            className="px-6 py-3 rounded-lg bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-white font-medium transition-colors"
-          >
-            목록 보기
-          </Link>
+          {/* 목록 보기 링크: onNavigateToList가 주어지면 버튼, 아니면 Link */}
+          {onNavigateToList ? (
+            <button
+              onClick={onNavigateToList}
+              className="px-6 py-3 rounded-lg bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-white font-medium transition-colors"
+            >
+              목록 보기
+            </button>
+          ) : (
+            <Link
+              href="/quotes"
+              className="px-6 py-3 rounded-lg bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-900 dark:text-white font-medium transition-colors"
+            >
+              목록 보기
+            </Link>
+          )}
         </div>
       </div>
     </div>

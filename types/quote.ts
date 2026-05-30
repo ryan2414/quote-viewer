@@ -21,4 +21,6 @@ export interface QuoteDisplayProps {
   isFavorite: boolean;
   onToggleFavorite: (id: number) => void;
   onShare: () => void;
+  // 목록 페이지로 이동하는 핸들러 (선택적: 없으면 Link 컴포넌트 사용)
+  onNavigateToList?: () => void;
 }

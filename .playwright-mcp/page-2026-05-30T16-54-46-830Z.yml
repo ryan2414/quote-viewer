@@ -1,0 +1,214 @@
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "Quote Viewer" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - navigation "주요 네비게이션" [ref=e5]:
+        - list [ref=e6]:
+          - listitem [ref=e7]:
+            - link "오늘의 명언" [ref=e8] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e9]:
+            - link "명언 목록" [active] [ref=e10] [cursor=pointer]:
+              - /url: /quotes
+  - generic [ref=e41]:
+    - heading "명언 모음" [level=1] [ref=e42]
+    - generic [ref=e44]:
+      - button "전체32" [ref=e45]
+      - button "즐겨찾기1" [ref=e46]
+    - generic [ref=e47]:
+      - generic [ref=e48] [cursor=pointer]:
+        - paragraph [ref=e49]: "\"성공은 준비와 기회가 만날 때 일어난다.\""
+        - paragraph [ref=e50]: — 바비 언저
+        - button "즐겨찾기 추가" [ref=e52]:
+          - img [ref=e53]
+          - text: 즐겨찾기
+      - generic [ref=e55] [cursor=pointer]:
+        - paragraph [ref=e56]: "\"The only way to do great work is to love what you do.\""
+        - paragraph [ref=e57]: — Steve Jobs
+        - button "즐겨찾기 추가" [ref=e59]:
+          - img [ref=e60]
+          - text: 즐겨찾기
+      - generic [ref=e62] [cursor=pointer]:
+        - paragraph [ref=e63]: "\"어떤 위대한 일도 하루아침에 이루어지지 않는다.\""
+        - paragraph [ref=e64]: — Vincent van Gogh
+        - button "즐겨찾기 추가" [ref=e66]:
+          - img [ref=e67]
+          - text: 즐겨찾기
+      - generic [ref=e69] [cursor=pointer]:
+        - paragraph [ref=e70]: "\"Innovation distinguishes between a leader and a follower.\""
+        - paragraph [ref=e71]: — Steve Jobs
+        - button "즐겨찾기 추가" [ref=e73]:
+          - img [ref=e74]
+          - text: 즐겨찾기
+      - generic [ref=e76] [cursor=pointer]:
+        - paragraph [ref=e77]: "\"당신의 시간은 제한되어 있다. 다른 사람의 삶을 사는 데 낭비하지 말라.\""
+        - paragraph [ref=e78]: — Steve Jobs
+        - button "즐겨찾기 추가" [ref=e80]:
+          - img [ref=e81]
+          - text: 즐겨찾기
+      - generic [ref=e83] [cursor=pointer]:
+        - paragraph [ref=e84]: "\"Be yourself; everyone else is already taken.\""
+        - paragraph [ref=e85]: — Oscar Wilde
+        - button "즐겨찾기 추가" [ref=e87]:
+          - img [ref=e88]
+          - text: 즐겨찾기
+      - generic [ref=e90] [cursor=pointer]:
+        - paragraph [ref=e91]: "\"실패는 성공의 어머니다.\""
+        - paragraph [ref=e92]: — 토마스 에디슨
+        - button "즐겨찾기 추가" [ref=e94]:
+          - img [ref=e95]
+          - text: 즐겨찾기
+      - generic [ref=e97] [cursor=pointer]:
+        - paragraph [ref=e98]: "\"The future belongs to those who believe in the beauty of their dreams.\""
+        - paragraph [ref=e99]: — Eleanor Roosevelt
+        - button "즐겨찾기 추가" [ref=e101]:
+          - img [ref=e102]
+          - text: 즐겨찾기
+      - generic [ref=e104] [cursor=pointer]:
+        - paragraph [ref=e105]: "\"크기가 아니라 노력으로 성공이 결정된다.\""
+        - paragraph [ref=e106]: — Zig Ziglar
+        - button "즐겨찾기 추가" [ref=e108]:
+          - img [ref=e109]
+          - text: 즐겨찾기
+      - generic [ref=e111] [cursor=pointer]:
+        - paragraph [ref=e112]: "\"Don't let yesterday take up too much of today.\""
+        - paragraph [ref=e113]: — Will Rogers
+        - button "즐겨찾기 추가" [ref=e115]:
+          - img [ref=e116]
+          - text: 즐겨찾기
+      - generic [ref=e118] [cursor=pointer]:
+        - paragraph [ref=e119]: "\"매일 할 수 있는 작은 것들이 세상을 바꾼다.\""
+        - paragraph [ref=e120]: — Mahatma Gandhi
+        - button "즐겨찾기 추가" [ref=e122]:
+          - img [ref=e123]
+          - text: 즐겨찾기
+      - generic [ref=e125] [cursor=pointer]:
+        - paragraph [ref=e126]: "\"The only impossible journey is the one you never begin.\""
+        - paragraph [ref=e127]: — Tony Robbins
+        - button "즐겨찾기 추가" [ref=e129]:
+          - img [ref=e130]
+          - text: 즐겨찾기
+      - generic [ref=e132] [cursor=pointer]:
+        - paragraph [ref=e133]: "\"꿈을 갖는 것은 무료이지만, 실행하는 것에는 용기가 필요하다.\""
+        - paragraph [ref=e134]: — 알려지지 않음
+        - button "즐겨찾기 추가" [ref=e136]:
+          - img [ref=e137]
+          - text: 즐겨찾기
+      - generic [ref=e139] [cursor=pointer]:
+        - paragraph [ref=e140]: "\"Success is not final, failure is not fatal: it is the courage to continue that counts.\""
+        - paragraph [ref=e141]: — Winston Churchill
+        - button "즐겨찾기 해제" [ref=e143]:
+          - img [ref=e144]
+          - text: 즐겨찾기 해제
+      - generic [ref=e146] [cursor=pointer]:
+        - paragraph [ref=e147]: "\"내일은 결코 오지 않는다. 오늘이 전부다.\""
+        - paragraph [ref=e148]: — 제임스 쿡
+        - button "즐겨찾기 추가" [ref=e150]:
+          - img [ref=e151]
+          - text: 즐겨찾기
+      - generic [ref=e153] [cursor=pointer]:
+        - paragraph [ref=e154]: "\"You miss 100% of the shots you do not take.\""
+        - paragraph [ref=e155]: — Wayne Gretzky
+        - button "즐겨찾기 추가" [ref=e157]:
+          - img [ref=e158]
+          - text: 즐겨찾기
+      - generic [ref=e160] [cursor=pointer]:
+        - paragraph [ref=e161]: "\"행동 없는 꿈은 바뀌지 않는 현실이다.\""
+        - paragraph [ref=e162]: — Denzel Washington
+        - button "즐겨찾기 추가" [ref=e164]:
+          - img [ref=e165]
+          - text: 즐겨찾기
+      - generic [ref=e167] [cursor=pointer]:
+        - paragraph [ref=e168]: "\"The only person you are destined to become is the person you decide to be.\""
+        - paragraph [ref=e169]: — Ralph Waldo Emerson
+        - button "즐겨찾기 추가" [ref=e171]:
+          - img [ref=e172]
+          - text: 즐겨찾기
+      - generic [ref=e174] [cursor=pointer]:
+        - paragraph [ref=e175]: "\"사랑은 가장 큰 선물이다.\""
+        - paragraph [ref=e176]: — 알려지지 않음
+        - button "즐겨찾기 추가" [ref=e178]:
+          - img [ref=e179]
+          - text: 즐겨찾기
+      - generic [ref=e181] [cursor=pointer]:
+        - paragraph [ref=e182]: "\"Life is what happens when you are busy making other plans.\""
+        - paragraph [ref=e183]: — John Lennon
+        - button "즐겨찾기 추가" [ref=e185]:
+          - img [ref=e186]
+          - text: 즐겨찾기
+      - generic [ref=e188] [cursor=pointer]:
+        - paragraph [ref=e189]: "\"나 자신에게 충실해야 나도, 다른 사람도 행복하다.\""
+        - paragraph [ref=e190]: — William Shakespeare
+        - button "즐겨찾기 추가" [ref=e192]:
+          - img [ref=e193]
+          - text: 즐겨찾기
+      - generic [ref=e195] [cursor=pointer]:
+        - paragraph [ref=e196]: "\"The best time to plant a tree was 20 years ago. The second best time is now.\""
+        - paragraph [ref=e197]: — Chinese Proverb
+        - button "즐겨찾기 추가" [ref=e199]:
+          - img [ref=e200]
+          - text: 즐겨찾기
+      - generic [ref=e202] [cursor=pointer]:
+        - paragraph [ref=e203]: "\"모든 위대한 성공은 먼저 불가능해 보인다.\""
+        - paragraph [ref=e204]: — Jim Abbott
+        - button "즐겨찾기 추가" [ref=e206]:
+          - img [ref=e207]
+          - text: 즐겨찾기
+      - generic [ref=e209] [cursor=pointer]:
+        - paragraph [ref=e210]: "\"Your limitation—it is only your imagination.\""
+        - paragraph [ref=e211]: — Unknown
+        - button "즐겨찾기 추가" [ref=e213]:
+          - img [ref=e214]
+          - text: 즐겨찾기
+      - generic [ref=e216] [cursor=pointer]:
+        - paragraph [ref=e217]: "\"변화는 불편하지만 현상 유지는 더 불편하다.\""
+        - paragraph [ref=e218]: — Daniel Cohen
+        - button "즐겨찾기 추가" [ref=e220]:
+          - img [ref=e221]
+          - text: 즐겨찾기
+      - generic [ref=e223] [cursor=pointer]:
+        - paragraph [ref=e224]: "\"The only limit to our realization of tomorrow is our doubts of today.\""
+        - paragraph [ref=e225]: — Franklin D. Roosevelt
+        - button "즐겨찾기 추가" [ref=e227]:
+          - img [ref=e228]
+          - text: 즐겨찾기
+      - generic [ref=e230] [cursor=pointer]:
+        - paragraph [ref=e231]: "\"사랑과 일, 두 가지를 잘하는 사람이 가장 행복하다.\""
+        - paragraph [ref=e232]: — Sigmund Freud
+        - button "즐겨찾기 추가" [ref=e234]:
+          - img [ref=e235]
+          - text: 즐겨찾기
+      - generic [ref=e237] [cursor=pointer]:
+        - paragraph [ref=e238]: "\"Keep your face always toward the sunshine and shadows will fall behind you.\""
+        - paragraph [ref=e239]: — Walt Whitman
+        - button "즐겨찾기 추가" [ref=e241]:
+          - img [ref=e242]
+          - text: 즐겨찾기
+      - generic [ref=e244] [cursor=pointer]:
+        - paragraph [ref=e245]: "\"오늘의 노력이 내일의 성공이다.\""
+        - paragraph [ref=e246]: — 알려지지 않음
+        - button "즐겨찾기 추가" [ref=e248]:
+          - img [ref=e249]
+          - text: 즐겨찾기
+      - generic [ref=e251] [cursor=pointer]:
+        - paragraph [ref=e252]: "\"Do what you can, with what you have, where you are.\""
+        - paragraph [ref=e253]: — Theodore Roosevelt
+        - button "즐겨찾기 추가" [ref=e255]:
+          - img [ref=e256]
+          - text: 즐겨찾기
+      - generic [ref=e258] [cursor=pointer]:
+        - paragraph [ref=e259]: "\"두려움은 진보의 적이다.\""
+        - paragraph [ref=e260]: — 벤자민 프랭클린
+        - button "즐겨찾기 추가" [ref=e262]:
+          - img [ref=e263]
+          - text: 즐겨찾기
+      - generic [ref=e265] [cursor=pointer]:
+        - paragraph [ref=e266]: "\"The journey of a thousand miles begins with a single step.\""
+        - paragraph [ref=e267]: — Lao Tzu
+        - button "즐겨찾기 추가" [ref=e269]:
+          - img [ref=e270]
+          - text: 즐겨찾기
+  - button "Open Next.js Dev Tools" [ref=e32] [cursor=pointer]:
+    - img [ref=e33]
+  - alert [ref=e36]

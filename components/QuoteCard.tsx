@@ -36,11 +36,11 @@ export default function QuoteCard({
         — {quote.author}
       </p>
 
-      {/* 즐겨찾기 버튼 */}
+      {/* 즐겨찾기 버튼: 카드 클릭 이벤트 전파 차단 후 단일 토글 호출 */}
       <div onClick={handleFavoriteClick}>
         <FavoriteButton
           isFavorite={isFavorite}
-          onToggle={() => onToggleFavorite(quote.id)}
+          onToggle={() => {}}
         />
       </div>
     </div>

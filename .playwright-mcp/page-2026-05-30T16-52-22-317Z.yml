@@ -1,0 +1,58 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e4]:
+      - link "P Portfolio" [ref=e5] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]: P
+        - text: Portfolio
+      - navigation [ref=e7]:
+        - link "홈" [ref=e8] [cursor=pointer]:
+          - /url: /
+        - link "포트폴리오" [ref=e9] [cursor=pointer]:
+          - /url: /posts
+        - button "카테고리" [ref=e10]:
+          - text: 카테고리
+          - img
+  - main [ref=e11]:
+    - generic [ref=e17]:
+      - generic [ref=e18]: 개발자 포트폴리오
+      - heading "안녕하세요, 개발자입니다" [level=1] [ref=e19]:
+        - text: 안녕하세요,
+        - text: 개발자입니다
+      - paragraph [ref=e20]:
+        - text: Notion CMS로 관리하는 개인 포트폴리오입니다.
+        - text: 프로젝트 경험과 기술 스택을 확인해보세요.
+      - generic [ref=e21]:
+        - link "포트폴리오 보기" [ref=e22] [cursor=pointer]:
+          - /url: /posts
+        - link "GitHub" [ref=e23] [cursor=pointer]:
+          - /url: https://github.com
+    - generic [ref=e25]:
+      - heading "최근 포트폴리오" [level=2] [ref=e26]
+      - link "전체 보기" [ref=e28] [cursor=pointer]:
+        - /url: /posts
+  - contentinfo [ref=e29]:
+    - generic [ref=e30]:
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - link "P Portfolio" [ref=e33] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e34]: P
+            - text: Portfolio
+          - paragraph [ref=e35]: Notion CMS 기반 개인 개발 포트폴리오
+        - generic [ref=e36]:
+          - heading "메뉴" [level=3] [ref=e37]
+          - link "홈" [ref=e38] [cursor=pointer]:
+            - /url: /
+          - link "포트폴리오" [ref=e39] [cursor=pointer]:
+            - /url: /posts
+        - generic [ref=e40]:
+          - heading "외부 링크" [level=3] [ref=e41]
+          - link "GitHub" [ref=e42] [cursor=pointer]:
+            - /url: https://github.com
+          - link "LinkedIn" [ref=e43] [cursor=pointer]:
+            - /url: https://linkedin.com
+      - generic [ref=e44]:
+        - paragraph [ref=e45]: © 2026 Portfolio. All rights reserved.
+        - paragraph [ref=e46]: Powered by Notion & Next.js
+  - region "Notifications alt+T"

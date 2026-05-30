@@ -19,14 +19,13 @@ function loadFavoritesFromStorage(): number[] {
 }
 
 export function useFavorites() {
-  const [favoriteIds, setFavoriteIds] = useState<number[]>(() =>
-    loadFavoritesFromStorage()
-  );
+  // SSR/CSR hydration 불일치 방지: 초기값은 항상 빈 배열로 시작
+  const [favoriteIds, setFavoriteIds] = useState<number[]>([]);
   const [isHydrated, setIsHydrated] = useState(false);
 
-  // hydration 완료 후 클라이언트 렌더링 상태 업데이트
+  // hydration 완료 후 localStorage에서 데이터 로드
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setFavoriteIds(loadFavoritesFromStorage());
     setIsHydrated(true);
   }, []);
 
