@@ -1,12 +1,21 @@
 'use client';
 
-import { useState } from 'react';
-import { quotes } from '@/data/quotes';
+import { useState, useMemo } from 'react';
+import { quotes, getQuotesByCategory } from '@/data/quotes';
+import { categories } from '@/data/categories';
+import type { CategoryId } from '@/data/categories';
 import { useFavorites } from '@/hooks/useFavorites';
 import QuoteCard from '@/components/QuoteCard';
 
-// 탭 타입 정의
-type TabType = 'all' | 'favorites';
+// 탭 타입: 전체 | 카테고리 5종 | 즐겨찾기
+type TabType = 'all' | CategoryId | 'favorites';
+
+// 탭 메타데이터: 순서 = 전체 → 카테고리(5) → 즐겨찾기
+const tabs = [
+  { id: 'all' as TabType, label: '전체' },
+  ...categories.map((c) => ({ id: c.id as TabType, label: c.label })),
+  { id: 'favorites' as TabType, label: '즐겨찾기' },
+];
 
 export default function QuotesPage() {
   // 현재 활성 탭 상태
@@ -14,11 +23,25 @@ export default function QuotesPage() {
 
   const { isFavorite, toggleFavorite, favoriteIds, isHydrated } = useFavorites();
 
-  // 즐겨찾기 탭 표시 명언: favoriteIds 기반 필터링
-  const favoriteQuotes = quotes.filter((q) => favoriteIds.includes(q.id));
+  // 탭에 따른 명언 목록 필터링 (favoriteIds를 의존성에 포함하여 즐겨찾기 변경 반응)
+  const filteredQuotes = useMemo(() => {
+    if (activeTab === 'all') return quotes;
+    if (activeTab === 'favorites') return quotes.filter((q) => favoriteIds.includes(q.id));
+    return getQuotesByCategory(activeTab as CategoryId);
+  }, [activeTab, favoriteIds]);
 
-  // 현재 탭에 따라 표시할 명언 배열 결정
-  const displayedQuotes = activeTab === 'all' ? quotes : favoriteQuotes;
+  // 각 탭의 명언 수 계산 (배지 표시용)
+  const tabCount = useMemo(() => {
+    const counts: Record<TabType, number> = { all: quotes.length, favorites: 0 } as Record<TabType, number>;
+    categories.forEach((c) => {
+      counts[c.id] = getQuotesByCategory(c.id).length;
+    });
+    counts['favorites'] = favoriteIds.length;
+    return counts;
+  }, [favoriteIds]);
+
+  // 즐겨찾기 빈 상태 여부
+  const isFavoritesEmpty = activeTab === 'favorites' && isHydrated && filteredQuotes.length === 0;
 
   return (
     /* 명언 목록 페이지: 배경색 통일, 최소 높이 확보 */
@@ -35,68 +58,54 @@ export default function QuotesPage() {
           </p>
         </div>
 
-        {/* 탭 네비게이션: 전체 / 즐겨찾기 */}
-        <div className="flex justify-center mb-8 sm:mb-10">
+        {/* 탭 네비게이션: 7개 탭, 가로 스크롤 가능 */}
+        <div className="mb-8 sm:mb-10">
           <div
-            className="flex bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl p-1 gap-1 shadow-sm"
+            className="flex overflow-x-auto gap-2 pb-2 scrollbar-hide"
             role="tablist"
-            aria-label="명언 목록 필터"
+            aria-label="명언 카테고리 필터"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            {/* 전체 탭 */}
-            <button
-              role="tab"
-              aria-selected={activeTab === 'all'}
-              onClick={() => setActiveTab('all')}
-              className={`px-5 sm:px-6 py-2 rounded-lg font-medium text-xs sm:text-sm transition-all duration-150 ${
-                activeTab === 'all'
-                  ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-sm'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800'
-              }`}
-            >
-              전체
-              <span
-                className={`ml-2 text-xs px-2 py-0.5 rounded-full ${
-                  activeTab === 'all'
-                    ? 'bg-white/20 dark:bg-gray-900/20 text-white dark:text-gray-900'
-                    : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400'
-                }`}
-              >
-                {quotes.length}
-              </span>
-            </button>
+            {tabs.map((tab) => {
+              const isActive = activeTab === tab.id;
+              // 즐겨찾기 탭은 hydration 전 카운트 숨김 (SSR 불일치 방지)
+              const showCount = tab.id !== 'favorites' || isHydrated;
 
-            {/* 즐겨찾기 탭 */}
-            <button
-              role="tab"
-              aria-selected={activeTab === 'favorites'}
-              onClick={() => setActiveTab('favorites')}
-              className={`px-5 sm:px-6 py-2 rounded-lg font-medium text-xs sm:text-sm transition-all duration-150 ${
-                activeTab === 'favorites'
-                  ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-sm'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800'
-              }`}
-            >
-              즐겨찾기
-              {/* hydration 완료 후 카운트 표시 (SSR 불일치 방지) */}
-              {isHydrated && (
-                <span
-                  className={`ml-2 text-xs px-2 py-0.5 rounded-full ${
-                    activeTab === 'favorites'
-                      ? 'bg-white/20 dark:bg-gray-900/20 text-white dark:text-gray-900'
-                      : favoriteIds.length > 0
-                        ? 'bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400'
-                        : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400'
+              return (
+                <button
+                  key={tab.id}
+                  role="tab"
+                  aria-selected={isActive}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`flex-none px-4 sm:px-5 py-2 rounded-xl font-medium text-xs sm:text-sm transition-all duration-150 whitespace-nowrap ${
+                    isActive
+                      ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-sm'
+                      : 'bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-800 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 shadow-sm'
                   }`}
                 >
-                  {favoriteIds.length}
-                </span>
-              )}
-            </button>
+                  {tab.label}
+                  {/* 명언 수 배지 */}
+                  {showCount && (
+                    <span
+                      className={`ml-1.5 text-xs px-1.5 py-0.5 rounded-full ${
+                        isActive
+                          ? 'bg-white/20 dark:bg-gray-900/20 text-white dark:text-gray-900'
+                          : tab.id === 'favorites' && tabCount[tab.id] > 0
+                            ? 'bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400'
+                            : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400'
+                      }`}
+                    >
+                      {tabCount[tab.id] ?? 0}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
 
         {/* 카드 그리드 또는 빈 상태 */}
-        {activeTab === 'favorites' && isHydrated && favoriteQuotes.length === 0 ? (
+        {isFavoritesEmpty ? (
           /* 즐겨찾기 빈 상태 UI: 큰 아이콘 + 안내 문구 */
           <div className="flex flex-col items-center justify-center py-20 sm:py-28 gap-4 text-center">
             <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm flex items-center justify-center">
@@ -133,7 +142,7 @@ export default function QuotesPage() {
         ) : (
           /* 명언 카드 그리드: 반응형 3단계 */
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
-            {displayedQuotes.map((quote) => (
+            {filteredQuotes.map((quote) => (
               <QuoteCard
                 key={quote.id}
                 quote={quote}

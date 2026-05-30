@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // 로컬 MCP 서버 빌드 산출물: 프로젝트 소스 코드가 아니므로 제외
+    "mcp-shrimp-task-manager/**",
   ]),
 ]);
 

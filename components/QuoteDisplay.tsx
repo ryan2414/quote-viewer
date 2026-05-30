@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { QuoteDisplayProps } from '@/types/quote';
+import { getCategoryMeta } from '@/data/categories';
 import FavoriteButton from './FavoriteButton';
 
 export default function QuoteDisplay({
@@ -11,6 +12,9 @@ export default function QuoteDisplay({
   onShare,
   onNavigateToList,
 }: QuoteDisplayProps) {
+  // 카테고리 메타데이터 조회
+  const category = getCategoryMeta(quote.category);
+
   return (
     /* 홈 명언 표시 영역: 수직/수평 중앙 정렬, 충분한 상하 여백 확보 */
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-4rem)] px-5 py-16 sm:px-8 sm:py-20">
@@ -40,7 +44,7 @@ export default function QuoteDisplay({
         </div>
 
         {/* 저자 및 출처 정보 */}
-        <div className="space-y-1">
+        <div className="space-y-2">
           {/* 저자명: 중간 크기, 연회색 처리 */}
           <p className="text-lg sm:text-xl md:text-2xl font-medium text-gray-500 dark:text-gray-400 tracking-wide">
             — {quote.author}
@@ -50,6 +54,16 @@ export default function QuoteDisplay({
             <p className="text-sm sm:text-base text-gray-400 dark:text-gray-500 italic">
               {quote.source}
             </p>
+          )}
+          {/* 카테고리 배지: 카테고리가 있을 때만 렌더링 */}
+          {category && (
+            <div className="flex justify-center pt-1">
+              <span
+                className={`text-xs px-3 py-1 rounded-full font-medium ${category.badgeClass}`}
+              >
+                {category.label}
+              </span>
+            </div>
           )}
         </div>
 

@@ -1,9 +1,11 @@
+import type { CategoryId } from '@/data/categories';
+
 export interface Quote {
   id: number;
   text: string;
   author: string;
   source?: string;
-  category?: string;
+  category?: CategoryId;
 }
 
 export interface FavoriteStore {

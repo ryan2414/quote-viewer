@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { QuoteCardProps } from '@/types/quote';
+import { getCategoryMeta } from '@/data/categories';
 import FavoriteButton from './FavoriteButton';
 
 export default function QuoteCard({
@@ -10,6 +11,8 @@ export default function QuoteCard({
   onToggleFavorite,
 }: QuoteCardProps) {
   const router = useRouter();
+  // 카테고리 메타데이터 조회 (없으면 undefined)
+  const category = getCategoryMeta(quote.category);
 
   const handleCardClick = () => {
     router.push(`/?quoteId=${quote.id}`);
@@ -57,9 +60,20 @@ export default function QuoteCard({
       <div className="w-8 h-px bg-gray-200 dark:bg-gray-700 mb-4" aria-hidden="true" />
 
       {/* 저자: 연회색, 작은 크기 */}
-      <p className="text-gray-400 dark:text-gray-500 text-xs sm:text-sm font-medium mb-4 tracking-wide">
+      <p className="text-gray-400 dark:text-gray-500 text-xs sm:text-sm font-medium tracking-wide">
         — {quote.author}
       </p>
+
+      {/* 카테고리 배지: 카테고리가 있을 때만 렌더링 */}
+      {category && (
+        <span
+          className={`mt-2 inline-block text-xs px-2 py-0.5 rounded-full font-medium mb-3 ${category.badgeClass}`}
+        >
+          {category.label}
+        </span>
+      )}
+      {/* 카테고리가 없을 경우 즐겨찾기 버튼 위 여백 유지 */}
+      {!category && <div className="mb-4" aria-hidden="true" />}
 
       {/* 즐겨찾기 버튼: 카드 클릭 이벤트 전파 차단 */}
       <div onClick={handleFavoriteClick} className="mt-auto">

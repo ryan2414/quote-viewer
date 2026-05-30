@@ -1,4 +1,5 @@
 import type { Quote } from '@/types/quote';
+import type { CategoryId } from '@/data/categories';
 
 export const quotes: Quote[] = [
   {
@@ -324,4 +325,9 @@ export function getTodayQuote(date: Date = new Date()): Quote {
 
 export function getQuoteById(id: number): Quote | undefined {
   return quotes.find((quote) => quote.id === id);
+}
+
+// 카테고리별 명언 목록 반환
+export function getQuotesByCategory(category: CategoryId): Quote[] {
+  return quotes.filter((q) => q.category === category);
 }
