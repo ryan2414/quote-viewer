@@ -55,7 +55,7 @@ Phase 5는 기존 52개 명언 데이터에 이미 정의된 카테고리 필드
 > 목표: 카테고리 메타데이터를 정의하고, 명언 카드/상세 뷰에 배지를 추가하며,
 > 명언 목록 페이지에 카테고리 필터 탭을 구현한다.
 
-- **Task 014: 카테고리 메타데이터 및 유틸리티 확장** - 우선순위
+- ✅ **Task 014: 카테고리 메타데이터 및 유틸리티 확장** - 우선순위
   - `data/categories.ts` 신규 — 카테고리 id, 한국어 label, Tailwind 색상 클래스 정의
     ```
     wisdom     → 지혜      (blue)
@@ -68,7 +68,7 @@ Phase 5는 기존 52개 명언 데이터에 이미 정의된 카테고리 필드
   - `data/quotes.ts` — `getQuotesByCategory(category: CategoryId)` 유틸 추가
   - **수락 기준**: `getQuotesByCategory('wisdom')` 호출 시 wisdom 명언만 반환, `npm run build` 타입 오류 없음
 
-- **Task 015: QuoteCard / QuoteDisplay 카테고리 배지 추가**
+- ✅ **Task 015: QuoteCard / QuoteDisplay 카테고리 배지 추가**
   - `components/QuoteCard.tsx` — 저자명 옆에 카테고리 배지 추가 (카테고리별 색상)
   - `components/QuoteDisplay.tsx` — 저자명 아래에 카테고리 배지 표시
   - `data/categories.ts`의 메타데이터를 활용해 label/색상 조회
@@ -79,7 +79,7 @@ Phase 5는 기존 52개 명언 데이터에 이미 정의된 카테고리 필드
   - 홈 페이지 상세 뷰에 카테고리 배지가 표시되는지 검증
   - 카테고리 없는 명언(category 미정의)에서 배지가 나타나지 않는지 검증
 
-- **Task 016: 명언 목록 카테고리 필터 탭 구현**
+- ✅ **Task 016: 명언 목록 카테고리 필터 탭 구현**
   - `app/quotes/page.tsx` — `TabType` 확장
     ```typescript
     type TabType = 'all' | 'wisdom' | 'motivation' | 'life' | 'courage' | 'love' | 'favorites';
@@ -96,7 +96,7 @@ Phase 5는 기존 52개 명언 데이터에 이미 정의된 카테고리 필드
   - 카테고리 탭에서 즐겨찾기 토글이 정상 동작하는지 검증
   - 모바일(375px)에서 탭 가로 스크롤이 동작하는지 검증
 
-- **Task 017: 카테고리 기능 E2E 테스트 및 배포 검증**
+- ✅ **Task 017: 카테고리 기능 E2E 테스트 및 배포 검증**
   - Playwright MCP로 카테고리 필터 전체 사용자 여정 검증
   - `npm run lint` 및 `npm run build` 무오류 확인
   - Vercel 배포 후 프로덕션 동작 점검
@@ -110,15 +110,15 @@ Phase 5는 기존 52개 명언 데이터에 이미 정의된 카테고리 필드
 
 ## 성공 지표
 
-- [ ] 명언 카드와 상세 뷰에 카테고리 배지가 올바르게 표시됨 (F011)
-- [ ] 명언 목록 페이지에서 카테고리별 탭 필터링이 정상 동작 (F012)
-- [ ] 각 카테고리 탭의 명언 수 배지가 실제 데이터와 일치
-- [ ] 모바일 화면에서 탭 오버플로우 처리 정상
-- [ ] `npm run lint` / `npm run build` 무오류
+- [x] 명언 카드와 상세 뷰에 카테고리 배지가 올바르게 표시됨 (F011)
+- [x] 명언 목록 페이지에서 카테고리별 탭 필터링이 정상 동작 (F012)
+- [x] 각 카테고리 탭의 명언 수 배지가 실제 데이터와 일치
+- [x] 모바일 화면에서 탭 오버플로우 처리 정상
+- [x] `npm run lint` / `npm run build` 무오류
 - [ ] Vercel 배포 성공
 
 ---
 
 **작성일**: 2026-05-31
 **기준 문서**: `docs/tasks/ROADMAP_V1.md`, `docs/PRD.md`
-**상태**: Phase 5 진행 예정 (0/4 Tasks 완료)
+**상태**: Phase 5 완료 (4/4 Tasks 완료, Vercel 배포 대기 중)
