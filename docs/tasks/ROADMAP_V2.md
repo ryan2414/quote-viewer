@@ -115,10 +115,10 @@ Phase 5는 기존 52개 명언 데이터에 이미 정의된 카테고리 필드
 - [x] 각 카테고리 탭의 명언 수 배지가 실제 데이터와 일치
 - [x] 모바일 화면에서 탭 오버플로우 처리 정상
 - [x] `npm run lint` / `npm run build` 무오류
-- [ ] Vercel 배포 성공
+- [x] Vercel 배포 성공
 
 ---
 
 **작성일**: 2026-05-31
 **기준 문서**: `docs/tasks/ROADMAP_V1.md`, `docs/PRD.md`
-**상태**: Phase 5 완료 (4/4 Tasks 완료, Vercel 배포 대기 중)
+**상태**: Phase 5 완료 (4/4 Tasks 완료, 배포 완료)
