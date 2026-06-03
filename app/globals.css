@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* dark: 클래스를 media query 대신 .dark 클래스 기반으로 동작하게 변경 */
+@variant dark (&:where(.dark, .dark *));
+
 /* ===== 색상 CSS 변수 ===== */
 :root {
   --background: #ffffff;
@@ -30,30 +33,23 @@
   --font-mono: var(--font-geist-mono);
 }
 
-/*
-  다크 모드: prefers-color-scheme 미디어 쿼리 기반 CSS 변수 재정의
-  Tailwind CSS 4의 dark: 변형은 기본적으로 이 미디어 쿼리를 사용합니다.
-  별도의 tailwind.config.js 설정 없이 자동으로 동작합니다.
-*/
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* 다크 모드: .dark 클래스 기반 CSS 변수 재정의 */
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
 
-    --card-bg: #111827;
-    --card-border: #1f2937;
+  --card-bg: #111827;
+  --card-border: #1f2937;
 
-    --divider: #1f2937;
+  --divider: #1f2937;
 
-    --text-primary: #f9fafb;
-    --text-secondary: #9ca3af;
-    --text-muted: #6b7280;
+  --text-primary: #f9fafb;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
 
-    /* 다크 모드 버튼 */
-    --btn-secondary-bg: #1f2937;
-    --btn-secondary-hover: #374151;
-    --btn-secondary-text: #e5e7eb;
-  }
+  --btn-secondary-bg: #1f2937;
+  --btn-secondary-hover: #374151;
+  --btn-secondary-text: #e5e7eb;
 }
 
 /* ===== 기본 바디 스타일 ===== */
@@ -128,9 +124,7 @@ body {
     outline-offset: 2px;
   }
 
-  @media (prefers-color-scheme: dark) {
-    .focus-ring:focus-visible {
-      outline-color: #60a5fa;
-    }
+  .dark .focus-ring:focus-visible {
+    outline-color: #60a5fa;
   }
 }

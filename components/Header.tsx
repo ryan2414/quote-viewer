@@ -2,10 +2,12 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { Sun, Moon } from 'lucide-react';
+import { useTheme } from '@/hooks/useTheme';
 
 export default function Header() {
-  /* 현재 경로로 활성 링크 결정 */
   const pathname = usePathname();
+  const { theme, toggleTheme } = useTheme();
 
   const navLinks = [
     { href: '/', label: '오늘의 명언' },
@@ -43,6 +45,19 @@ export default function Header() {
           </span>
         </Link>
 
+        {/* 우측: 네비게이션 + 다크모드 토글 */}
+        <div className="flex items-center gap-1">
+        {/* 다크모드 토글 버튼 */}
+        <button
+          onClick={toggleTheme}
+          aria-label={theme === 'dark' ? '라이트 모드로 전환' : '다크 모드로 전환'}
+          className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white transition-colors duration-150"
+        >
+          {theme === 'dark'
+            ? <Sun className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
+            : <Moon className="w-4 h-4 sm:w-4.5 sm:h-4.5" />}
+        </button>
+
         {/* 주요 네비게이션: 모바일/데스크톱 모두 표시 (링크 수가 적어 접기 불필요) */}
         <nav aria-label="주요 네비게이션">
           <ul className="flex items-center gap-1">
@@ -75,6 +90,7 @@ export default function Header() {
             })}
           </ul>
         </nav>
+        </div>
       </div>
     </header>
   );
