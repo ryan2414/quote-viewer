@@ -146,6 +146,24 @@ body {
     animation: cardReveal 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
+  /* Rare 뽑기 연출: 파란빛 글로우 3회 */
+  @keyframes rareGlow {
+    0%, 100% { box-shadow: 0 0 0px rgba(96, 165, 250, 0); }
+    50%       { box-shadow: 0 0 24px rgba(96, 165, 250, 0.6); }
+  }
+  .animate-rareGlow {
+    animation: rareGlow 1.2s ease-in-out 3;
+  }
+
+  /* Legendary 뽑기 연출: 금빛 강한 글로우 3회 */
+  @keyframes legendaryGlow {
+    0%, 100% { box-shadow: 0 0 0px rgba(250, 204, 21, 0); }
+    50%       { box-shadow: 0 0 40px rgba(250, 204, 21, 0.8); }
+  }
+  .animate-legendaryGlow {
+    animation: legendaryGlow 1.2s ease-in-out 3;
+  }
+
   /* 포커스 링 스타일 통일: 키보드 접근성 */
   .focus-ring {
     outline: 2px solid transparent;

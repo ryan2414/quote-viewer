@@ -1,13 +1,18 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon, LogIn, LogOut } from 'lucide-react';
 import { useTheme } from '@/hooks/useTheme';
+import { useAuth } from '@/hooks/useAuth';
+import AuthModal from '@/components/AuthModal';
 
 export default function Header() {
   const pathname = usePathname();
   const { theme, toggleTheme } = useTheme();
+  const { user, isLoading, signOut } = useAuth();
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const navLinks = [
     { href: '/', label: '오늘의 명언', shortLabel: '오늘' },
@@ -46,7 +51,7 @@ export default function Header() {
           </span>
         </Link>
 
-        {/* 우측: 네비게이션 + 다크모드 토글 */}
+        {/* 우측: 네비게이션 + 다크모드 토글 + 인증 */}
         <div className="flex items-center gap-1">
         {/* 다크모드 토글 버튼 */}
         <button
@@ -58,6 +63,40 @@ export default function Header() {
             ? <Sun className="w-4 h-4 sm:w-4.5 sm:h-4.5" />
             : <Moon className="w-4 h-4 sm:w-4.5 sm:h-4.5" />}
         </button>
+
+        {/* 인증 UI */}
+        {isLoading ? (
+          /* 세션 로딩 중: 레이아웃 점프 방지용 스켈레톤 */
+          <div className="w-8 h-8 rounded-full bg-gray-200 dark:bg-gray-700 animate-pulse" />
+        ) : user ? (
+          /* 로그인 상태: 이니셜 아바타 + 로그아웃 버튼 */
+          <div className="flex items-center gap-1">
+            <div
+              className="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-xs font-bold select-none"
+              aria-label={user.email ?? '사용자'}
+              title={user.email ?? '사용자'}
+            >
+              {(user.email?.[0] ?? '?').toUpperCase()}
+            </div>
+            <button
+              onClick={signOut}
+              aria-label="로그아웃"
+              className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white transition-colors duration-150"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          </div>
+        ) : (
+          /* 비로그인 상태: 로그인 버튼 */
+          <button
+            onClick={() => setIsAuthModalOpen(true)}
+            aria-label="로그인"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white transition-colors duration-150"
+          >
+            <LogIn className="w-4 h-4" />
+            <span className="hidden sm:inline">로그인</span>
+          </button>
+        )}
 
         {/* 주요 네비게이션: 모바일/데스크톱 모두 표시 (링크 수가 적어 접기 불필요) */}
         <nav aria-label="주요 네비게이션">
@@ -90,6 +129,9 @@ export default function Header() {
         </nav>
         </div>
       </div>
+
+      {/* 로그인 모달 */}
+      <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
     </header>
   );
 }

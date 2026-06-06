@@ -250,3 +250,35 @@ export function formatReferenceEn(s: Scripture): string {
   const verseRange = s.verseEnd ? `${s.verse}-${s.verseEnd}` : `${s.verse}`;
   return `${s.book_en} ${s.chapter}:${verseRange}`;
 }
+
+// ─── 희귀도 시스템 ───────────────────────────────────────────────
+
+export type Rarity = 'common' | 'rare' | 'legendary';
+
+const RARITY_MAP: Record<ScriptureCategory, Rarity> = {
+  faith: 'common',
+  hope: 'common',
+  thanksgiving: 'common',
+  love: 'rare',
+  comfort: 'rare',
+  wisdom: 'legendary',
+};
+
+export function getRarityForCategory(category: ScriptureCategory): Rarity {
+  return RARITY_MAP[category];
+}
+
+// 가중치 랜덤 뽑기 — 미수집 구절 우선 선택
+export function drawScripture(collectedIds: number[]): Scripture {
+  const roll = Math.random();
+  const targetRarity: Rarity =
+    roll < 0.10 ? 'legendary' : roll < 0.40 ? 'rare' : 'common';
+
+  const rarityPool = scriptures.filter(
+    (s) => getRarityForCategory(s.category) === targetRarity
+  );
+  const uncollected = rarityPool.filter((s) => !collectedIds.includes(s.id));
+  const pool = uncollected.length > 0 ? uncollected : rarityPool;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+

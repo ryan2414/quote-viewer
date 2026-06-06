@@ -1,8 +1,11 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { getRandomScripture, formatReference, formatReferenceEn } from '@/data/scriptures';
+import { drawScripture, getRarityForCategory, formatReference, formatReferenceEn, type Rarity } from '@/data/scriptures';
 import { getScriptureCategoryMeta } from '@/data/scriptureCategories';
+import { useDrawTimer } from '@/hooks/useDrawTimer';
+import { useScriptureCollection } from '@/hooks/useScriptureCollection';
+import DrawTimer from '@/components/DrawTimer';
 import type { Scripture } from '@/types/scripture';
 
 type Phase = 'idle' | 'drawing' | 'revealed';
@@ -10,14 +13,23 @@ type Phase = 'idle' | 'drawing' | 'revealed';
 export default function ScriptureDrawer() {
   const [phase, setPhase] = useState<Phase>('idle');
   const [scripture, setScripture] = useState<Scripture | null>(null);
+  const [drawnRarity, setDrawnRarity] = useState<Rarity | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const { canDraw, remainingMs, isLoading: timerLoading, recordDraw } = useDrawTimer();
+  const { collectedIds, addToCollection } = useScriptureCollection();
 
-  const handleDraw = useCallback(() => {
-    const next = getRandomScripture(scripture?.id);
+  const handleDraw = useCallback(async () => {
+    if (!canDraw) return;
+    await recordDraw();
+    const next = drawScripture(collectedIds);
+    const rarity = getRarityForCategory(next.category);
+    setDrawnRarity(rarity);
+    // 뽑은 구절을 수집함에 rarity와 함께 저장
+    await addToCollection(next.id, rarity);
     setScripture(next);
     setPhase('drawing');
     setTimeout(() => setPhase('revealed'), 600);
-  }, [scripture]);
+  }, [canDraw, recordDraw, collectedIds, addToCollection]);
 
   const handleShare = useCallback(async () => {
     if (!scripture) return;
@@ -36,7 +48,7 @@ export default function ScriptureDrawer() {
   return (
     <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm overflow-hidden">
 
-      {/* idle: 뽑기 버튼 */}
+      {/* idle: 뽑기 버튼 또는 타이머 */}
       {phase === 'idle' && (
         <div className="flex flex-col items-center justify-center px-5 py-16 sm:py-20 text-center space-y-6">
           <div aria-hidden="true">
@@ -53,16 +65,26 @@ export default function ScriptureDrawer() {
               오늘의 말씀을 뽑아보세요
             </p>
             <p className="text-sm text-gray-400 dark:text-gray-500">
-              버튼을 누르면 무작위로 말씀을 선택해 드립니다
+              {canDraw
+                ? '버튼을 누르면 무작위로 말씀을 선택해 드립니다'
+                : '3시간마다 한 번씩 뽑을 수 있습니다'}
             </p>
           </div>
-          <button
-            onClick={handleDraw}
-            className="flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 active:from-blue-700 active:to-indigo-700 text-white font-semibold text-base sm:text-lg shadow-md hover:shadow-lg transition-all duration-200 focus-ring"
-          >
-            <span aria-hidden="true" className="text-xl">✦</span>
-            말씀 뽑기
-          </button>
+
+          {/* 타이머 로딩 중: 스켈레톤 */}
+          {timerLoading ? (
+            <div className="h-14 w-48 rounded-2xl bg-gray-100 dark:bg-gray-800 animate-pulse" />
+          ) : canDraw ? (
+            <button
+              onClick={handleDraw}
+              className="flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 active:from-blue-700 active:to-indigo-700 text-white font-semibold text-base sm:text-lg shadow-md hover:shadow-lg transition-all duration-200 focus-ring"
+            >
+              <span aria-hidden="true" className="text-xl">✦</span>
+              말씀 뽑기
+            </button>
+          ) : (
+            <DrawTimer remainingMs={remainingMs} />
+          )}
         </div>
       )}
 
@@ -96,10 +118,18 @@ export default function ScriptureDrawer() {
         </div>
       )}
 
-      {/* revealed: 구절 표시 */}
+      {/* revealed: 구절 표시 + 희귀도 글로우 연출 */}
       {phase === 'revealed' && scripture && (
-        <div className="animate-cardReveal">
-          <RevealedScripture scripture={scripture} onShare={handleShare} onRedraw={handleDraw} />
+        <div className={`animate-cardReveal ${
+          drawnRarity === 'legendary' ? 'animate-legendaryGlow' :
+          drawnRarity === 'rare' ? 'animate-rareGlow' : ''
+        }`}>
+          <RevealedScripture
+            scripture={scripture}
+            canRedraw={canDraw}
+            onShare={handleShare}
+            onRedraw={handleDraw}
+          />
         </div>
       )}
 
@@ -122,10 +152,12 @@ export default function ScriptureDrawer() {
 
 function RevealedScripture({
   scripture,
+  canRedraw,
   onShare,
   onRedraw,
 }: {
   scripture: Scripture;
+  canRedraw: boolean;
   onShare: () => void;
   onRedraw: () => void;
 }) {
@@ -188,9 +220,16 @@ function RevealedScripture({
             </svg>
             복사
           </button>
+          {/* 쿨다운 중 다시 뽑기 버튼 비활성화 */}
           <button
-            onClick={onRedraw}
-            className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white font-medium text-sm sm:text-base transition-all duration-150 focus-ring"
+            onClick={canRedraw ? onRedraw : undefined}
+            disabled={!canRedraw}
+            title={canRedraw ? undefined : '3시간 후 다시 뽑을 수 있습니다'}
+            className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 font-medium text-sm sm:text-base transition-all duration-150 focus-ring ${
+              canRedraw
+                ? 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white'
+                : 'border-gray-100 dark:border-gray-800 text-gray-300 dark:text-gray-600 cursor-not-allowed'
+            }`}
           >
             <span aria-hidden="true">↻</span>
             다시 뽑기

@@ -1,0 +1,166 @@
+{
+  "tasks": [
+    {
+      "id": "e8732097-20f8-46cd-9bf5-814bd9f5a3fc",
+      "name": "Task 001-1: 패키지 설치 및 프로젝트 초기화",
+      "description": "lucide-react 패키지를 설치하고 프로젝트 기본 설정을 확인합니다. Create Next App으로 생성된 초기 상태에서 필요한 의존성을 추가합니다.",
+      "notes": "lucide-react는 하트, 공유, 복사 아이콘을 제공합니다. Phase 2에서 FavoriteButton, QuoteDisplay 컴포넌트에서 사용됩니다.",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-05-30T16:29:39.710Z",
+      "updatedAt": "2026-06-06T14:50:22.820Z",
+      "relatedFiles": [
+        {
+          "path": "package.json",
+          "type": "TO_MODIFY",
+          "description": "lucide-react 의존성 추가"
+        }
+      ],
+      "implementationGuide": "1. npm install lucide-react 명령 실행\n2. package.json에 lucide-react가 dependencies에 추가되었는지 확인\n3. npm run build로 빌드 오류 없는지 확인",
+      "verificationCriteria": "npm list lucide-react로 설치 확인, npm run build 성공",
+      "analysisResult": "Task 001: 프로젝트 구조 및 라우팅 골격 설정\\n\\n목표: Next.js 16 App Router 기반의 명언 뷰어 프로젝트 구조를 구성하고, 기본 라우팅을 설정합니다.\\n\\n최종 수락 기준: npm run dev 실행 시 / 및 /quotes 경로가 정상 렌더링되고, 린트 에러 없음.\\n\\n기술 스택: Next.js 16.2.6, React 19.2.4, TypeScript 5, Tailwind CSS 4, lucide-react",
+      "summary": "lucide-react^1.17.0 패키지가 package.json에 정상 설치되어 있으며, next/react/react-dom 등 핵심 의존성도 모두 갖춰져 있음. @vercel/analytics도 추가 설치됨.",
+      "completedAt": "2026-06-06T14:50:22.819Z"
+    },
+    {
+      "id": "0c86bb17-9ac3-46d8-9335-bac80e4557a4",
+      "name": "Task 001-2: 디렉토리 구조 생성",
+      "description": "프로젝트 계층적 구조를 구성하기 위해 components/, data/, hooks/, types/ 디렉토리와 app/quotes/ 라우트 디렉토리를 생성합니다.",
+      "notes": "각 디렉토리의 역할:\n- components: QuoteDisplay, QuoteCard, Header, Toast, FavoriteButton\n- data: quotes.ts (명언 배열), 유틸리티 함수\n- hooks: useFavorites (localStorage 관리)\n- types: Quote, FavoriteStore 타입 정의\n- app/quotes: 명언 목록 페이지",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-05-30T16:29:39.710Z",
+      "updatedAt": "2026-06-06T14:50:22.973Z",
+      "relatedFiles": [
+        {
+          "path": "app/quotes",
+          "type": "CREATE",
+          "description": "명언 목록 페이지 라우트"
+        },
+        {
+          "path": "components",
+          "type": "CREATE",
+          "description": "재사용 가능한 UI 컴포넌트"
+        },
+        {
+          "path": "data",
+          "type": "CREATE",
+          "description": "정적 데이터 및 유틸리티"
+        },
+        {
+          "path": "hooks",
+          "type": "CREATE",
+          "description": "클라이언트 상태 관리 훅"
+        },
+        {
+          "path": "types",
+          "type": "CREATE",
+          "description": "TypeScript 타입 정의"
+        }
+      ],
+      "implementationGuide": "1. 다음 디렉토리 생성:\n   - app/quotes (라우트 디렉토리)\n   - components (UI 컴포넌트)\n   - data (정적 데이터)\n   - hooks (커스텀 훅)\n   - types (타입 정의)\n2. 각 디렉토리에 .gitkeep 파일 추가 (선택사항)",
+      "verificationCriteria": "ls -la로 모든 디렉토리 생성 확인, 디렉토리 구조가 계획과 일치",
+      "analysisResult": "Task 001: 프로젝트 구조 및 라우팅 골격 설정\\n\\n목표: Next.js 16 App Router 기반의 명언 뷰어 프로젝트 구조를 구성하고, 기본 라우팅을 설정합니다.\\n\\n최종 수락 기준: npm run dev 실행 시 / 및 /quotes 경로가 정상 렌더링되고, 린트 에러 없음.\\n\\n기술 스택: Next.js 16.2.6, React 19.2.4, TypeScript 5, Tailwind CSS 4, lucide-react",
+      "summary": "components/, data/, hooks/, types/ 디렉토리 모두 생성 완료. 각 디렉토리에 실제 파일(QuoteCard, quotes.ts, useFavorites.ts, quote.ts 등)이 존재하며 app/quotes/ 라우트 디렉토리도 생성됨.",
+      "completedAt": "2026-06-06T14:50:22.972Z"
+    },
+    {
+      "id": "e181ae47-6965-4ba3-9e9e-94f97367fc24",
+      "name": "Task 001-3: app/quotes/page.tsx 생성",
+      "description": "명언 목록 페이지를 위한 빈 페이지 골격을 생성합니다. Phase 3의 Task 009에서 실제 구현이 이루어집니다.",
+      "notes": "이 페이지는 Task 009에서 실제 명언 목록 UI와 필터링 로직이 추가될 예정입니다.",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-05-30T16:29:39.710Z",
+      "updatedAt": "2026-06-06T14:50:23.128Z",
+      "relatedFiles": [
+        {
+          "path": "app/quotes/page.tsx",
+          "type": "CREATE",
+          "description": "명언 목록 페이지"
+        }
+      ],
+      "implementationGuide": "app/quotes/page.tsx 생성:\nexport default function QuotesPage() {\n  return (\n    <div className=\"min-h-screen bg-white dark:bg-black\">\n      {/* Task 009에서 구현: 전체/즐겨찾기 탭, 카드 그리드 */}\n    </div>\n  );\n}\n\nTypeScript 타입 확인: strict 모드 준수",
+      "verificationCriteria": "app/quotes/page.tsx 파일 생성됨, npm run dev에서 /quotes 경로 접속 가능, TypeScript 컴파일 에러 없음",
+      "analysisResult": "Task 001: 프로젝트 구조 및 라우팅 골격 설정\\n\\n목표: Next.js 16 App Router 기반의 명언 뷰어 프로젝트 구조를 구성하고, 기본 라우팅을 설정합니다.\\n\\n최종 수락 기준: npm run dev 실행 시 / 및 /quotes 경로가 정상 렌더링되고, 린트 에러 없음.\\n\\n기술 스택: Next.js 16.2.6, React 19.2.4, TypeScript 5, Tailwind CSS 4, lucide-react",
+      "summary": "app/quotes/page.tsx 생성 완료. 골격 수준을 넘어 탭 네비게이션, 카테고리 필터, 즐겨찾기 기능을 포함한 전체 구현이 이루어졌음.",
+      "completedAt": "2026-06-06T14:50:23.127Z"
+    },
+    {
+      "id": "b4ea0973-1cdd-454f-8205-d9581ac70366",
+      "name": "Task 001-4: app/page.tsx 교체",
+      "description": "Create Next App 기본 템플릿을 제거하고 명언 뷰어 홈페이지의 빈 골격으로 교체합니다.",
+      "notes": "이 페이지는 Task 008에서 실제 QuoteDisplay 컴포넌트와 Toast가 추가될 예정입니다.",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-05-30T16:29:39.710Z",
+      "updatedAt": "2026-06-06T14:50:23.272Z",
+      "relatedFiles": [
+        {
+          "path": "app/page.tsx",
+          "type": "TO_MODIFY",
+          "description": "홈페이지 교체"
+        }
+      ],
+      "implementationGuide": "app/page.tsx 전체 교체:\nexport default function Home() {\n  return (\n    <div className=\"min-h-screen flex flex-col items-center justify-center bg-white dark:bg-black px-4\">\n      <main className=\"w-full max-w-2xl\">\n        {/* Task 008에서 구현: QuoteDisplay, Toast */}\n      </main>\n    </div>\n  );\n}\n\n기본 레이아웃 구조만 유지, 기본 create-next-app 콘텐츠(Image, 배너, 링크) 모두 제거",
+      "verificationCriteria": "npm run dev에서 / 경로 접속 가능, 기본 레이아웃만 표시, TypeScript 컴파일 에러 없음",
+      "analysisResult": "Task 001: 프로젝트 구조 및 라우팅 골격 설정\\n\\n목표: Next.js 16 App Router 기반의 명언 뷰어 프로젝트 구조를 구성하고, 기본 라우팅을 설정합니다.\\n\\n최종 수락 기준: npm run dev 실행 시 / 및 /quotes 경로가 정상 렌더링되고, 린트 에러 없음.\\n\\n기술 스택: Next.js 16.2.6, React 19.2.4, TypeScript 5, Tailwind CSS 4, lucide-react",
+      "summary": "app/page.tsx에서 Create Next App 기본 템플릿이 완전히 제거되고, 오늘의 명언 표시/공유/즐겨찾기/목록 이동 기능을 포함한 명언 뷰어 홈페이지로 교체됨.",
+      "completedAt": "2026-06-06T14:50:23.271Z"
+    },
+    {
+      "id": "5a512fb6-67ae-428c-a799-912f05a6c534",
+      "name": "Task 001-5: app/layout.tsx 업데이트",
+      "description": "루트 레이아웃을 업데이트하여 메타데이터를 설정하고 헤더 컴포넌트 위치를 마련합니다.",
+      "notes": "헤더 컴포넌트는 Task 010에서 구현될 예정이므로, 여기서는 주석으로만 표시합니다.",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-05-30T16:29:39.710Z",
+      "updatedAt": "2026-06-06T14:50:23.425Z",
+      "relatedFiles": [
+        {
+          "path": "app/layout.tsx",
+          "type": "TO_MODIFY",
+          "description": "메타데이터 업데이트 및 헤더 위치 지정"
+        }
+      ],
+      "implementationGuide": "app/layout.tsx에서:\n1. metadata 객체 업데이트:\n   - title: \"Quote Viewer\"\n   - description: \"매일 새로운 명언으로 영감을 받으세요\"\n2. 헤더 위치 추가:\n   <body className=\"min-h-full flex flex-col\">\n     {/* <Header /> 위치 (Task 010에서 구현) */}\n     {children}\n   </body>\n\nRootLayout의 기본 구조는 유지",
+      "verificationCriteria": "메타데이터가 정확히 설정됨, npm run dev에서 페이지 제목이 'Quote Viewer'로 표시",
+      "analysisResult": "Task 001: 프로젝트 구조 및 라우팅 골격 설정\\n\\n목표: Next.js 16 App Router 기반의 명언 뷰어 프로젝트 구조를 구성하고, 기본 라우팅을 설정합니다.\\n\\n최종 수락 기준: npm run dev 실행 시 / 및 /quotes 경로가 정상 렌더링되고, 린트 에러 없음.\\n\\n기술 스택: Next.js 16.2.6, React 19.2.4, TypeScript 5, Tailwind CSS 4, lucide-react",
+      "summary": "app/layout.tsx에 title/description/OG/Twitter 메타데이터 완비, Header/Footer 컴포넌트 마운트, FOUC 방지 다크모드 스크립트, Vercel Analytics 통합까지 완료됨.",
+      "completedAt": "2026-06-06T14:50:23.424Z"
+    },
+    {
+      "id": "7c70467f-5ff8-416a-a40b-293d5f65b84a",
+      "name": "Task 001-6: 프로젝트 검증",
+      "description": "모든 변경사항이 완료되었으므로, npm run dev로 프로젝트를 실행하여 라우팅과 빌드 상태를 검증합니다.",
+      "notes": "모든 페이지가 정상 렌더링되고 콘솔 에러가 없어야 합니다.",
+      "status": "completed",
+      "dependencies": [],
+      "createdAt": "2026-05-30T16:29:39.710Z",
+      "updatedAt": "2026-06-06T14:50:23.582Z",
+      "relatedFiles": [
+        {
+          "path": "app/page.tsx",
+          "type": "REFERENCE",
+          "description": "홈페이지 검증"
+        },
+        {
+          "path": "app/quotes/page.tsx",
+          "type": "REFERENCE",
+          "description": "명언 목록 페이지 검증"
+        },
+        {
+          "path": "app/layout.tsx",
+          "type": "REFERENCE",
+          "description": "루트 레이아웃 검증"
+        }
+      ],
+      "implementationGuide": "1. npm run dev 실행\n2. 브라우저에서 http://localhost:3000 접속\n   - / 경로: 빈 명언 뷰어 레이아웃 표시\n   - /quotes 경로: 빈 명언 목록 레이아웃 표시\n3. npm run build로 프로덕션 빌드 확인\n4. npm run lint로 코드 품질 확인",
+      "verificationCriteria": "npm run dev 성공, / 및 /quotes 경로 정상 렌더링, npm run build 성공, npm run lint 에러 없음",
+      "analysisResult": "Task 001: 프로젝트 구조 및 라우팅 골격 설정\\n\\n목표: Next.js 16 App Router 기반의 명언 뷰어 프로젝트 구조를 구성하고, 기본 라우팅을 설정합니다.\\n\\n최종 수락 기준: npm run dev 실행 시 / 및 /quotes 경로가 정상 렌더링되고, 린트 에러 없음.\\n\\n기술 스택: Next.js 16.2.6, React 19.2.4, TypeScript 5, Tailwind CSS 4, lucide-react",
+      "summary": "프로젝트 구조, 라우팅(/, /quotes), 컴포넌트, 데이터, 훅, 타입이 모두 완성된 상태. Phase 1 전체 목표가 달성되었으며 실제 서비스 수준의 구현이 이루어짐.",
+      "completedAt": "2026-06-06T14:50:23.581Z"
+    }
+  ]
+}
