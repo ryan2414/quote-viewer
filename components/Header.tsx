@@ -10,8 +10,9 @@ export default function Header() {
   const { theme, toggleTheme } = useTheme();
 
   const navLinks = [
-    { href: '/', label: '오늘의 명언' },
-    { href: '/quotes', label: '명언 목록' },
+    { href: '/', label: '오늘의 명언', shortLabel: '오늘' },
+    { href: '/quotes', label: '명언 목록', shortLabel: '명언' },
+    { href: '/scriptures', label: '성경 구절', shortLabel: '성경' },
   ];
 
   return (
@@ -79,11 +80,8 @@ export default function Header() {
                     }`}
                     aria-current={isActive ? 'page' : undefined}
                   >
-                    {/* 모바일에서 '오늘의 명언' → '오늘' 으로 단축 */}
                     <span className="hidden sm:inline">{link.label}</span>
-                    <span className="sm:hidden">
-                      {link.href === '/' ? '오늘' : '목록'}
-                    </span>
+                    <span className="sm:hidden">{link.shortLabel}</span>
                   </Link>
                 </li>
               );

@@ -112,6 +112,40 @@ body {
     animation: quoteReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 
+  /* 뽑기 버튼 흔들기 */
+  @keyframes drawShake {
+    0%, 100% { transform: translateX(0) rotate(0deg); }
+    15%       { transform: translateX(-6px) rotate(-2deg); }
+    30%       { transform: translateX(6px) rotate(2deg); }
+    45%       { transform: translateX(-4px) rotate(-1deg); }
+    60%       { transform: translateX(4px) rotate(1deg); }
+    75%       { transform: translateX(-2px) rotate(0deg); }
+  }
+
+  .animate-drawShake {
+    animation: drawShake 0.6s ease-in-out both;
+  }
+
+  /* 뽑기 버튼 빛나기 */
+  @keyframes drawGlow {
+    0%, 100% { box-shadow: 0 0 0px rgba(99, 102, 241, 0); }
+    50%       { box-shadow: 0 0 32px rgba(99, 102, 241, 0.7); }
+  }
+
+  .animate-drawGlow {
+    animation: drawGlow 0.6s ease-in-out both;
+  }
+
+  /* 구절 카드 등장 */
+  @keyframes cardReveal {
+    from { opacity: 0; transform: translateY(32px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .animate-cardReveal {
+    animation: cardReveal 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
   /* 포커스 링 스타일 통일: 키보드 접근성 */
   .focus-ring {
     outline: 2px solid transparent;
