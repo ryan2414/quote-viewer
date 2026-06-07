@@ -6,8 +6,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: 'daily',
+      changeFrequency: 'monthly',
       priority: 1.0,
+    },
+    {
+      url: `${baseUrl}/today`,
+      lastModified: new Date(),
+      changeFrequency: 'daily',
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/quotes`,
