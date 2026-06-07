@@ -2,11 +2,13 @@
 
 import { useState, useMemo, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
-import { quotes, getQuotesByCategory, getQuoteById } from '@/data/quotes';
+import { quotes, getQuotesByCategory, getQuoteById, getDayIndex } from '@/data/quotes';
 import { categories } from '@/data/categories';
 import type { CategoryId } from '@/data/categories';
 import type { Quote } from '@/types/quote';
 import { useFavorites } from '@/hooks/useFavorites';
+import { useOnboarding } from '@/hooks/useOnboarding';
+import { useSwipe } from '@/hooks/useSwipe';
 import QuoteCard from '@/components/QuoteCard';
 import SkeletonCard from '@/components/SkeletonCard';
 import TodayQuoteSection from '@/components/TodayQuoteSection';
@@ -32,6 +34,13 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
   const [selectedQuoteId, setSelectedQuoteId] = useState<number | undefined>(initialQuoteId);
 
   const { isFavorite, toggleFavorite, favoriteIds, isHydrated } = useFavorites();
+  const { isFirstVisit, completeOnboarding } = useOnboarding();
+
+  // 즐겨찾기 토글 시 온보딩 완료 처리
+  const handleToggleFavorite = useCallback((id: number) => {
+    toggleFavorite(id);
+    completeOnboarding();
+  }, [toggleFavorite, completeOnboarding]);
 
   // 히어로 섹션에 표시할 명언: 선택된 명언 또는 오늘의 명언
   const displayedQuote = useMemo(() => {
@@ -75,15 +84,48 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
 
   const isFavoritesEmpty = activeTab === 'favorites' && isHydrated && filteredQuotes.length === 0;
 
+  // 스와이프: 현재 표시 명언의 quotes 배열 인덱스
+  const currentQuoteIndex = useMemo(
+    () => quotes.findIndex((q) => q.id === displayedQuote.id),
+    [displayedQuote.id]
+  );
+
+  const swipeHandlers = useSwipe({
+    onSwipeLeft: () => {
+      const nextIndex = (currentQuoteIndex + 1) % quotes.length;
+      handleCardClick(quotes[nextIndex].id);
+    },
+    onSwipeRight: () => {
+      const prevIndex = (currentQuoteIndex - 1 + quotes.length) % quotes.length;
+      handleCardClick(quotes[prevIndex].id);
+    },
+  });
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      {/* 오늘의 명언 히어로 섹션 */}
-      <TodayQuoteSection
-        quote={displayedQuote}
-        isFavorite={isFavorite(displayedQuote.id)}
-        onToggleFavorite={toggleFavorite}
-        onShare={handleShare}
-      />
+      {/* 첫 방문 온보딩 배너 */}
+      {isFirstVisit && (
+        <div className="bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800 px-5 py-3 flex justify-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-600 dark:text-red-400 text-sm animate-pulse">
+            <svg className="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+            </svg>
+            마음에 드는 명언을 저장해보세요
+          </div>
+        </div>
+      )}
+
+      {/* 오늘의 명언 히어로 섹션: touch-pan-y로 세로 스크롤 보존 */}
+      <div {...swipeHandlers} className="touch-pan-y">
+        <TodayQuoteSection
+          key={displayedQuote.id}
+          quote={displayedQuote}
+          isFavorite={isFavorite(displayedQuote.id)}
+          onToggleFavorite={handleToggleFavorite}
+          onShare={handleShare}
+          dayProgress={selectedQuoteId === undefined ? { index: getDayIndex(), total: quotes.length } : undefined}
+        />
+      </div>
 
       {/* 명언 목록 섹션 */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
@@ -112,7 +154,7 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
                   role="tab"
                   aria-selected={isActive}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex-none px-4 sm:px-5 py-2 rounded-xl font-medium text-xs sm:text-sm transition-all duration-150 whitespace-nowrap ${
+                  className={`flex-none px-4 sm:px-5 py-2 rounded-xl font-medium text-xs sm:text-sm transition-all duration-150 whitespace-nowrap focus-ring ${
                     isActive
                       ? 'bg-gray-900 dark:bg-white text-white dark:text-gray-900 shadow-sm'
                       : 'bg-white dark:bg-gray-900 text-gray-500 dark:text-gray-400 border border-gray-200 dark:border-gray-800 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-800 shadow-sm'

@@ -10,7 +10,7 @@ export default function FavoriteButton({ isFavorite, onToggle }: FavoriteButtonP
     /* 즐겨찾기 버튼: 상태에 따라 배경색·텍스트 색상 전환, 인라인 스타일 제거 */
     <button
       onClick={onToggle}
-      className={`flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-medium text-sm sm:text-base transition-all duration-150 shadow-sm hover:shadow-md ${
+      className={`flex items-center gap-2 px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-medium text-sm sm:text-base transition-all duration-150 shadow-sm hover:shadow-md focus-ring ${
         isFavorite
           ? 'bg-red-500 hover:bg-red-600 active:bg-red-700 text-white'
           : 'bg-gray-100 hover:bg-gray-200 active:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:active:bg-gray-600 text-gray-700 dark:text-gray-200'

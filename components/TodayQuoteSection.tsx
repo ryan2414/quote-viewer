@@ -9,6 +9,7 @@ interface TodayQuoteSectionProps {
   isFavorite: boolean;
   onToggleFavorite: (id: number) => void;
   onShare: () => void;
+  dayProgress?: { index: number; total: number };
 }
 
 export default function TodayQuoteSection({
@@ -16,16 +17,27 @@ export default function TodayQuoteSection({
   isFavorite,
   onToggleFavorite,
   onShare,
+  dayProgress,
 }: TodayQuoteSectionProps) {
   const category = getCategoryMeta(quote.category);
+  const bgClass = category
+    ? `bg-gradient-to-br ${category.gradientClass}`
+    : 'bg-white dark:bg-gray-950';
 
   return (
-    <div className="bg-white dark:bg-gray-950 border-b border-gray-100 dark:border-gray-800 px-5 py-14 sm:px-8 sm:py-18">
+    <div className={`${bgClass} border-b border-gray-100 dark:border-gray-800 px-5 py-14 sm:px-8 sm:py-18`}>
       <div className="max-w-3xl mx-auto text-center space-y-7">
-        {/* 섹션 레이블 */}
-        <p className="text-xs font-semibold tracking-widest text-gray-400 dark:text-gray-500 uppercase">
-          오늘의 명언
-        </p>
+        {/* 섹션 레이블 및 진행 표시 */}
+        <div className="flex flex-col items-center gap-1">
+          <p className="text-xs font-semibold tracking-widest text-gray-400 dark:text-gray-500 uppercase">
+            오늘의 명언
+          </p>
+          {dayProgress && (
+            <p className="text-xs text-gray-400 dark:text-gray-500">
+              전체 {dayProgress.total}개 중 {dayProgress.index + 1}번째
+            </p>
+          )}
+        </div>
 
         {/* 따옴표 아이콘 */}
         <div className="flex justify-center" aria-hidden="true">
@@ -40,7 +52,7 @@ export default function TodayQuoteSection({
 
         {/* 명언 본문 */}
         <blockquote>
-          <p className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white leading-relaxed tracking-tight animate-quoteReveal">
+          <p className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white leading-relaxed tracking-tight animate-quoteReveal font-[family-name:var(--font-quote)]">
             {quote.text}
           </p>
         </blockquote>
@@ -79,7 +91,7 @@ export default function TodayQuoteSection({
             </span>
             <button
               onClick={onShare}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 active:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-medium text-sm sm:text-base transition-all duration-150 shadow-sm hover:shadow-md"
+              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 active:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-medium text-sm sm:text-base transition-all duration-150 shadow-sm hover:shadow-md focus-ring"
               aria-label="명언 클립보드 복사"
             >
               <svg

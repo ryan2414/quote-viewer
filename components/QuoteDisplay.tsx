@@ -33,7 +33,7 @@ export default function QuoteDisplay({
 
         {/* 명언 본문: 모바일 lg → 태블릿 2xl → 데스크톱 3xl 단계별 크기 증가 */}
         <blockquote>
-          <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-relaxed tracking-tight">
+          <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white leading-relaxed tracking-tight animate-quoteReveal font-[family-name:var(--font-quote)]">
             {quote.text}
           </p>
         </blockquote>
@@ -82,7 +82,7 @@ export default function QuoteDisplay({
             </span>
             <button
               onClick={onShare}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 active:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 dark:active:bg-blue-700 text-white font-medium text-sm sm:text-base transition-all duration-150 shadow-sm hover:shadow-md dark:shadow-blue-900/30"
+              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 active:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 dark:active:bg-blue-700 text-white font-medium text-sm sm:text-base transition-all duration-150 shadow-sm hover:shadow-md dark:shadow-blue-900/30 focus-ring"
               aria-label="명언 클립보드 복사"
             >
               <svg
@@ -107,14 +107,14 @@ export default function QuoteDisplay({
           {onNavigateToList ? (
             <button
               onClick={onNavigateToList}
-              className="px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 active:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:active:bg-gray-600 text-gray-700 dark:text-gray-200 font-medium text-sm sm:text-base transition-all duration-150 shadow-sm hover:shadow-md"
+              className="px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 active:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:active:bg-gray-600 text-gray-700 dark:text-gray-200 font-medium text-sm sm:text-base transition-all duration-150 shadow-sm hover:shadow-md focus-ring"
             >
               목록 보기
             </button>
           ) : (
             <Link
               href="/quotes"
-              className="px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 active:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:active:bg-gray-600 text-gray-700 dark:text-gray-200 font-medium text-sm sm:text-base transition-all duration-150 shadow-sm hover:shadow-md"
+              className="px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 active:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:active:bg-gray-600 text-gray-700 dark:text-gray-200 font-medium text-sm sm:text-base transition-all duration-150 shadow-sm hover:shadow-md focus-ring"
             >
               목록 보기
             </Link>

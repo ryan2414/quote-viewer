@@ -316,11 +316,12 @@ export const quotes: Quote[] = [
   },
 ];
 
+export function getDayIndex(date: Date = new Date()): number {
+  return (date.getFullYear() + (date.getMonth() + 1) + date.getDate()) % quotes.length;
+}
+
 export function getTodayQuote(date: Date = new Date()): Quote {
-  const index =
-    (date.getFullYear() + (date.getMonth() + 1) + date.getDate()) %
-    quotes.length;
-  return quotes[index];
+  return quotes[getDayIndex(date)];
 }
 
 export function getQuoteById(id: number): Quote | undefined {
