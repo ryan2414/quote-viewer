@@ -9,13 +9,18 @@ export default function QuoteCard({
   quote,
   isFavorite,
   onToggleFavorite,
+  onCardClick,
 }: QuoteCardProps) {
   const router = useRouter();
   // 카테고리 메타데이터 조회 (없으면 undefined)
   const category = getCategoryMeta(quote.category);
 
   const handleCardClick = () => {
-    router.push(`/?quoteId=${quote.id}`);
+    if (onCardClick) {
+      onCardClick(quote.id);
+    } else {
+      router.push(`/quotes?quoteId=${quote.id}`);
+    }
   };
 
   const handleFavoriteClick = (e: React.MouseEvent) => {

@@ -16,6 +16,7 @@ export interface QuoteCardProps {
   quote: Quote;
   isFavorite: boolean;
   onToggleFavorite: (id: number) => void;
+  onCardClick?: (id: number) => void;
 }
 
 export interface QuoteDisplayProps {

@@ -15,8 +15,7 @@ export default function Header() {
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const navLinks = [
-    { href: '/today', label: '오늘의 명언', shortLabel: '오늘' },
-    { href: '/quotes', label: '명언 목록', shortLabel: '명언' },
+    { href: '/quotes', label: '명언', shortLabel: '명언' },
     { href: '/scriptures', label: '성경 구절', shortLabel: '성경' },
   ];
 

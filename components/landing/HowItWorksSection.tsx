@@ -40,7 +40,7 @@ export default function HowItWorksSection() {
               {/* 데스크톱 연결선 */}
               {index < steps.length - 1 && (
                 <div
-                  className="hidden md:block absolute top-8 left-[calc(50%+2.5rem)] right-[-1rem] h-px bg-gray-200 dark:bg-gray-800"
+                  className="hidden md:block absolute top-8 left-[calc(50%+2.5rem)] -right-4 h-px bg-gray-200 dark:bg-gray-800"
                   aria-hidden="true"
                 />
               )}

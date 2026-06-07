@@ -5,7 +5,7 @@ export default function HeroSection() {
     <section className="relative overflow-hidden bg-white dark:bg-gray-950 pt-20 pb-24 sm:pt-28 sm:pb-32">
       {/* 배경 그라디언트 장식 */}
       <div className="absolute inset-0 -z-10" aria-hidden="true">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-indigo-50/70 to-transparent dark:from-indigo-950/20 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-200 h-100 bg-linear-to-b from-indigo-50/70 to-transparent dark:from-indigo-950/20 rounded-full blur-3xl" />
       </div>
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
@@ -18,7 +18,7 @@ export default function HeroSection() {
         {/* 헤드라인 */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white tracking-tight leading-tight mb-6 animate-quoteReveal">
           하루를 바꾸는{' '}
-          <span className="bg-gradient-to-r from-indigo-600 to-violet-600 dark:from-indigo-400 dark:to-violet-400 bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-indigo-600 to-violet-600 dark:from-indigo-400 dark:to-violet-400 bg-clip-text text-transparent">
             한 마디
           </span>
         </h1>
@@ -38,16 +38,16 @@ export default function HeroSection() {
           style={{ animationDelay: '0.2s' }}
         >
           <Link
-            href="/today"
+            href="/quotes"
             className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold text-base hover:bg-gray-700 dark:hover:bg-gray-100 transition-colors duration-150"
           >
             오늘의 명언 보기
           </Link>
           <Link
-            href="/quotes"
+            href="/scriptures"
             className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-semibold text-base hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-150"
           >
-            명언 모아보기
+            성경 보기
           </Link>
         </div>
 

@@ -11,12 +11,12 @@ function serializeJsonLd(data: object): string {
 }
 
 export const metadata: Metadata = {
-  title: '명언 모음',
-  description: `위인들의 지혜로운 명언 ${quotes.length}개를 한눈에 모아보세요. 즐겨찾기로 마음에 드는 명언을 저장하세요.`,
-  keywords: ['명언 모음', '위인 명언', '동기부여 명언', '인생 명언', '짧은 명언', 'inspirational quotes'],
+  title: '명언',
+  description: `오늘의 명언과 위인들의 지혜로운 명언 ${quotes.length}개를 한눈에 모아보세요. 즐겨찾기로 마음에 드는 명언을 저장하세요.`,
+  keywords: ['오늘의 명언', '명언 모음', '위인 명언', '동기부여 명언', '인생 명언', '짧은 명언', 'inspirational quotes'],
   openGraph: {
-    title: '명언 모음 | Quote Viewer',
-    description: '위인들의 지혜로운 명언을 모아보세요.',
+    title: '명언 | Quote Viewer',
+    description: '오늘의 명언과 위인들의 지혜로운 명언을 모아보세요.',
     url: '/quotes',
   },
   alternates: { canonical: '/quotes' },
