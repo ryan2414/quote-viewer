@@ -9,6 +9,7 @@ interface TodayQuoteSectionProps {
   isFavorite: boolean;
   onToggleFavorite: (id: number) => void;
   onShare: () => void;
+  onShuffle?: () => void;
   dayProgress?: { index: number; total: number };
 }
 
@@ -17,6 +18,7 @@ export default function TodayQuoteSection({
   isFavorite,
   onToggleFavorite,
   onShare,
+  onShuffle,
   dayProgress,
 }: TodayQuoteSectionProps) {
   const category = getCategoryMeta(quote.category);
@@ -52,7 +54,7 @@ export default function TodayQuoteSection({
 
         {/* 명언 본문 */}
         <blockquote>
-          <p className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white leading-relaxed tracking-tight animate-quoteReveal font-[family-name:var(--font-quote)]">
+          <p className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white leading-relaxed tracking-tight animate-quoteReveal font-quote">
             {quote.text}
           </p>
         </blockquote>
@@ -111,6 +113,30 @@ export default function TodayQuoteSection({
               복사
             </button>
           </div>
+
+          {onShuffle && (
+            <button
+              onClick={onShuffle}
+              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 active:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-medium text-sm sm:text-base transition-all duration-150 shadow-sm hover:shadow-md focus-ring"
+              aria-label="다른 명언 보기"
+            >
+              <svg
+                className="w-4 h-4 sm:w-5 sm:h-5 shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                />
+              </svg>
+              다른 명언
+            </button>
+          )}
         </div>
       </div>
     </div>
