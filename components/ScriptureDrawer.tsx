@@ -4,19 +4,22 @@ import { useState, useCallback } from 'react';
 import { drawScripture, getRarityForCategory, formatReference, formatReferenceEn, type Rarity } from '@/data/scriptures';
 import { getScriptureCategoryMeta } from '@/data/scriptureCategories';
 import { useDrawTimer } from '@/hooks/useDrawTimer';
-import { useScriptureCollection } from '@/hooks/useScriptureCollection';
 import DrawTimer from '@/components/DrawTimer';
 import type { Scripture } from '@/types/scripture';
 
 type Phase = 'idle' | 'drawing' | 'revealed';
 
-export default function ScriptureDrawer() {
+interface ScriptureDrawerProps {
+  collectedIds: number[];
+  addToCollection: (id: number, rarity: Rarity) => Promise<void>;
+}
+
+export default function ScriptureDrawer({ collectedIds, addToCollection }: ScriptureDrawerProps) {
   const [phase, setPhase] = useState<Phase>('idle');
   const [scripture, setScripture] = useState<Scripture | null>(null);
   const [drawnRarity, setDrawnRarity] = useState<Rarity | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const { canDraw, remainingMs, isLoading: timerLoading, recordDraw } = useDrawTimer();
-  const { collectedIds, addToCollection } = useScriptureCollection();
 
   const handleDraw = useCallback(async () => {
     if (!canDraw) return;

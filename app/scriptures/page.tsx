@@ -27,7 +27,7 @@ export default function ScripturesPage() {
 
   const { user, isLoading: authLoading } = useAuth();
   const { streakDays } = useDrawTimer();
-  const { collectedScriptures, collectedIds, collectedItems, isLoading: collectionLoading, lastMilestone, clearMilestone } = useScriptureCollection();
+  const { collectedScriptures, collectedIds, collectedItems, isLoading: collectionLoading, addToCollection, lastMilestone, clearMilestone } = useScriptureCollection();
 
   const filteredScriptures = useMemo(() => {
     if (activeTab === 'all') return scriptures;
@@ -58,7 +58,7 @@ export default function ScripturesPage() {
 
         {/* 뽑기 섹션 */}
         <div className="mb-10 sm:mb-14">
-          <ScriptureDrawer />
+          <ScriptureDrawer collectedIds={collectedIds} addToCollection={addToCollection} />
         </div>
 
         {/* 내 수집함 섹션 */}
