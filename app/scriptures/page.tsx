@@ -73,7 +73,7 @@ export default function ScripturesPage() {
           {user && !collectionLoading && (
             <CollectionProgress
               collected={collectedScriptures.length}
-              total={30}
+              total={scriptures.length}
               streakDays={streakDays}
             />
           )}
