@@ -8,6 +8,7 @@ import type { CategoryId } from '@/data/categories';
 import type { Quote } from '@/types/quote';
 import { useFavorites } from '@/hooks/useFavorites';
 import QuoteCard from '@/components/QuoteCard';
+import SkeletonCard from '@/components/SkeletonCard';
 import TodayQuoteSection from '@/components/TodayQuoteSection';
 import Toast from '@/components/Toast';
 
@@ -105,7 +106,6 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
           >
             {tabs.map((tab) => {
               const isActive = activeTab === tab.id;
-              const showCount = tab.id !== 'favorites' || isHydrated;
               return (
                 <button
                   key={tab.id}
@@ -119,14 +119,25 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
                   }`}
                 >
                   {tab.label}
-                  {showCount && (
+                  {/* favorites: hydrated + count > 0일 때만 뱃지 표시, 나머지 탭: 항상 표시 */}
+                  {tab.id === 'favorites' ? (
+                    isHydrated && tabCount['favorites'] > 0 && (
+                      <span
+                        className={`ml-1.5 text-xs px-1.5 py-0.5 rounded-full ${
+                          isActive
+                            ? 'bg-white/20 dark:bg-gray-900/20 text-white dark:text-gray-900'
+                            : 'bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400'
+                        }`}
+                      >
+                        {tabCount['favorites']}
+                      </span>
+                    )
+                  ) : (
                     <span
                       className={`ml-1.5 text-xs px-1.5 py-0.5 rounded-full ${
                         isActive
                           ? 'bg-white/20 dark:bg-gray-900/20 text-white dark:text-gray-900'
-                          : tab.id === 'favorites' && tabCount[tab.id] > 0
-                            ? 'bg-red-100 dark:bg-red-900/40 text-red-600 dark:text-red-400'
-                            : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400'
+                          : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400'
                       }`}
                     >
                       {tabCount[tab.id] ?? 0}
@@ -139,7 +150,14 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
         </div>
 
         {/* 카드 그리드 또는 즐겨찾기 빈 상태 */}
-        {isFavoritesEmpty ? (
+        {!isHydrated ? (
+          // hydration 전: 스켈레톤 12개로 CLS 방지
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>
+        ) : isFavoritesEmpty ? (
           <div className="flex flex-col items-center justify-center py-20 sm:py-28 gap-4 text-center">
             <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm flex items-center justify-center">
               <svg
