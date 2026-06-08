@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Noto_Serif_KR } from "next/font/google";
+import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
+import PwaRegister from "@/components/PwaRegister";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import "./globals.css";
+
+const KAKAO_APP_KEY = process.env.NEXT_PUBLIC_KAKAO_APP_KEY;
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://quote-viewer.vercel.app').replace(/\/$/, '');
 
@@ -114,6 +118,20 @@ export default function RootLayout({
         <Footer />
         <Analytics />
         <GoogleAnalytics />
+        <PwaRegister />
+        {/* 카카오 SDK: 앱 키가 설정된 경우에만 로드 */}
+        {KAKAO_APP_KEY && (
+          <Script
+            src="https://t1.kakaocdn.net/kakaojs/2.7.4/kakao.min.js"
+            crossOrigin="anonymous"
+            strategy="lazyOnload"
+            onLoad={() => {
+              if (window.Kakao && !window.Kakao.isInitialized() && KAKAO_APP_KEY) {
+                window.Kakao.init(KAKAO_APP_KEY);
+              }
+            }}
+          />
+        )}
       </body>
     </html>
   );

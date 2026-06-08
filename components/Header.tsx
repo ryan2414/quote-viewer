@@ -7,6 +7,7 @@ import { Sun, Moon, LogIn, LogOut } from 'lucide-react';
 import { useTheme } from '@/hooks/useTheme';
 import { useAuth } from '@/hooks/useAuth';
 import AuthModal from '@/components/AuthModal';
+import StreakBadge from '@/components/StreakBadge';
 
 export default function Header() {
   const pathname = usePathname();
@@ -17,6 +18,7 @@ export default function Header() {
   const navLinks = [
     { href: '/quotes', label: '명언', shortLabel: '명언' },
     { href: '/scriptures', label: '성경 구절', shortLabel: '성경' },
+    { href: '/today', label: '기록', shortLabel: '기록' },
   ];
 
   return (
@@ -52,6 +54,8 @@ export default function Header() {
 
         {/* 우측: 네비게이션 + 다크모드 토글 + 인증 */}
         <div className="flex items-center gap-1">
+        {/* 스트릭 배지 */}
+        <StreakBadge />
         {/* 다크모드 토글 버튼 */}
         <button
           onClick={toggleTheme}

@@ -3,6 +3,7 @@
 import type { Quote } from '@/types/quote';
 import { getCategoryMeta } from '@/data/categories';
 import FavoriteButton from './FavoriteButton';
+import ShareButtons from './ShareButtons';
 
 interface TodayQuoteSectionProps {
   quote: Quote;
@@ -137,6 +138,11 @@ export default function TodayQuoteSection({
               다른 명언
             </button>
           )}
+        </div>
+
+        {/* 소셜 공유 버튼 */}
+        <div className="flex justify-center pt-1">
+          <ShareButtons quoteText={quote.text} author={quote.author} quoteId={quote.id} />
         </div>
       </div>
     </div>

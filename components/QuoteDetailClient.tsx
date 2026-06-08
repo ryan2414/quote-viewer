@@ -5,6 +5,8 @@ import Link from 'next/link';
 import type { Quote } from '@/types/quote';
 import { useFavorites } from '@/hooks/useFavorites';
 import FavoriteButton from './FavoriteButton';
+import ShareButtons from './ShareButtons';
+import SaveImageButton from './SaveImageButton';
 
 interface QuoteDetailClientProps {
   quote: Quote;
@@ -76,34 +78,41 @@ export default function QuoteDetailClient({
           </div>
 
           {/* 액션 버튼 */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-            <FavoriteButton
-              isFavorite={isFavorite(quote.id)}
-              onToggle={() => toggleFavorite(quote.id)}
-            />
+          <div className="flex flex-col items-center gap-3 pt-2">
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <FavoriteButton
+                isFavorite={isFavorite(quote.id)}
+                onToggle={() => toggleFavorite(quote.id)}
+              />
 
-            <div className="relative group">
-              <span className="absolute -top-9 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-gray-900 dark:bg-gray-700 text-white rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none z-10">
-                {copied ? '복사됨!' : '클립보드에 복사'}
-              </span>
-              <button
-                onClick={handleCopy}
-                className="flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 active:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-medium text-sm sm:text-base transition-all duration-150 shadow-sm hover:shadow-md"
-                aria-label="명언 클립보드 복사"
+              <div className="relative group">
+                <span className="absolute -top-9 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-gray-900 dark:bg-gray-700 text-white rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none z-10">
+                  {copied ? '복사됨!' : '클립보드에 복사'}
+                </span>
+                <button
+                  onClick={handleCopy}
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-500 hover:bg-blue-600 active:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-medium text-sm transition-all duration-150 shadow-sm hover:shadow-md"
+                  aria-label="명언 클립보드 복사"
+                >
+                  <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                  {copied ? '복사됨!' : '복사'}
+                </button>
+              </div>
+
+              <SaveImageButton quote={quote} />
+
+              <Link
+                href="/quotes"
+                className="px-5 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 active:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-medium text-sm transition-all duration-150 shadow-sm hover:shadow-md"
               >
-                <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-                {copied ? '복사됨!' : '복사'}
-              </button>
+                목록 보기
+              </Link>
             </div>
 
-            <Link
-              href="/quotes"
-              className="px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 active:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-medium text-sm sm:text-base transition-all duration-150 shadow-sm hover:shadow-md"
-            >
-              목록 보기
-            </Link>
+            {/* 소셜 공유 버튼 */}
+            <ShareButtons quoteText={quote.text} author={quote.author} quoteId={quote.id} />
           </div>
         </div>
 
