@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 
 const VAPID_PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
+const PUSH_TOKEN_KEY = 'qv-push-auth-token';
+const PUSH_ENDPOINT_KEY = 'qv-push-endpoint';
 
 function urlBase64ToArrayBuffer(base64String: string): ArrayBuffer {
   const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
@@ -44,11 +46,17 @@ export default function PushNotificationButton() {
         applicationServerKey: urlBase64ToArrayBuffer(VAPID_PUBLIC_KEY),
       });
 
-      await fetch('/api/push', {
+      const res = await fetch('/api/push', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(subscription.toJSON()),
       });
+
+      if (res.ok) {
+        const { authToken } = await res.json() as { authToken: string };
+        localStorage.setItem(PUSH_TOKEN_KEY, authToken);
+        localStorage.setItem(PUSH_ENDPOINT_KEY, subscription.endpoint);
+      }
 
       setPermission('granted');
     } catch {
@@ -65,12 +73,15 @@ export default function PushNotificationButton() {
       const reg = await navigator.serviceWorker.ready;
       const subscription = await reg.pushManager.getSubscription();
       if (subscription) {
+        const authToken = localStorage.getItem(PUSH_TOKEN_KEY);
         await fetch('/api/push', {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ endpoint: subscription.endpoint }),
+          body: JSON.stringify({ endpoint: subscription.endpoint, authToken }),
         });
         await subscription.unsubscribe();
+        localStorage.removeItem(PUSH_TOKEN_KEY);
+        localStorage.removeItem(PUSH_ENDPOINT_KEY);
       }
       setPermission('default');
     } catch {

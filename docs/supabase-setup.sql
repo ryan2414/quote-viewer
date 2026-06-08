@@ -90,10 +90,11 @@ CREATE INDEX IF NOT EXISTS idx_quote_likes_quote_id ON quote_likes(quote_id);
 -- =====================================================
 
 CREATE TABLE IF NOT EXISTS newsletter_subscribers (
-  id            uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-  email         text UNIQUE NOT NULL,
-  subscribed_at timestamptz DEFAULT now() NOT NULL,
-  active        boolean DEFAULT true NOT NULL
+  id                 uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  email              text UNIQUE NOT NULL,
+  subscribed_at      timestamptz DEFAULT now() NOT NULL,
+  active             boolean DEFAULT true NOT NULL,
+  unsubscribe_token  text
 );
 
 ALTER TABLE newsletter_subscribers ENABLE ROW LEVEL SECURITY;
@@ -112,6 +113,7 @@ CREATE TABLE IF NOT EXISTS push_subscriptions (
   id           uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   endpoint     text UNIQUE NOT NULL,
   subscription jsonb NOT NULL,
+  auth_token   text NOT NULL,
   created_at   timestamptz DEFAULT now() NOT NULL
 );
 
@@ -122,3 +124,13 @@ CREATE POLICY "푸시 구독 삽입" ON push_subscriptions
 
 CREATE POLICY "푸시 구독 삭제" ON push_subscriptions
   FOR DELETE USING (true);
+
+-- =====================================================
+-- 보안 강화 마이그레이션 (기존 테이블이 있는 경우 실행)
+-- =====================================================
+
+-- newsletter_subscribers에 unsubscribe_token 컬럼 추가
+ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS unsubscribe_token text;
+
+-- push_subscriptions에 auth_token 컬럼 추가
+ALTER TABLE push_subscriptions ADD COLUMN IF NOT EXISTS auth_token text;
