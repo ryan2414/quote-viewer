@@ -8,6 +8,7 @@ import FavoriteButton from './FavoriteButton';
 export default function QuoteCard({
   quote,
   isFavorite,
+  isRead = false,
   onToggleFavorite,
   onCardClick,
 }: QuoteCardProps) {
@@ -33,7 +34,11 @@ export default function QuoteCard({
     /* 카드 컨테이너: hover 시 위로 들리는 효과 + 섀도우 강화로 입체감 표현 */
     <article
       onClick={handleCardClick}
-      className="group bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-xl dark:hover:shadow-gray-900/60 hover:-translate-y-1 p-6 cursor-pointer transition-all duration-200 ease-out h-full flex flex-col"
+      className={`group rounded-2xl border shadow-sm hover:shadow-xl dark:hover:shadow-gray-900/60 hover:-translate-y-1 p-6 cursor-pointer transition-all duration-200 ease-out h-full flex flex-col ${
+        isRead
+          ? 'bg-gray-50 dark:bg-gray-900/60 border-gray-100 dark:border-gray-800/60'
+          : 'bg-white dark:bg-gray-900 border-gray-100 dark:border-gray-800'
+      }`}
       role="button"
       tabIndex={0}
       aria-label={`"${quote.text}" — ${quote.author} 명언 보기`}
@@ -79,6 +84,16 @@ export default function QuoteCard({
       )}
       {/* 카테고리가 없을 경우 즐겨찾기 버튼 위 여백 유지 */}
       {!category && <div className="mb-4" aria-hidden="true" />}
+
+      {/* 읽음 배지 */}
+      {isRead && (
+        <span className="mb-2 inline-flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500">
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
+          읽음
+        </span>
+      )}
 
       {/* 즐겨찾기 버튼: 카드 클릭 이벤트 전파 차단 */}
       <div onClick={handleFavoriteClick} className="mt-auto">

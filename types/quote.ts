@@ -15,6 +15,7 @@ export interface FavoriteStore {
 export interface QuoteCardProps {
   quote: Quote;
   isFavorite: boolean;
+  isRead?: boolean;
   onToggleFavorite: (id: number) => void;
   onCardClick?: (id: number) => void;
 }

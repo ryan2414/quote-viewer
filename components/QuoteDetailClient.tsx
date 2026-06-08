@@ -1,12 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import type { Quote } from '@/types/quote';
 import { useFavorites } from '@/hooks/useFavorites';
+import { useReadQuotes } from '@/hooks/useReadQuotes';
 import FavoriteButton from './FavoriteButton';
 import ShareButtons from './ShareButtons';
 import SaveImageButton from './SaveImageButton';
+import LikeButton from './LikeButton';
 
 interface QuoteDetailClientProps {
   quote: Quote;
@@ -26,7 +28,14 @@ export default function QuoteDetailClient({
   categoryBadgeClass,
 }: QuoteDetailClientProps) {
   const { isFavorite, toggleFavorite } = useFavorites();
+  const { markRead } = useReadQuotes();
   const [copied, setCopied] = useState(false);
+
+  // 페이지 진입 시 읽음 처리
+  useEffect(() => {
+    markRead(quote.id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [quote.id]);
 
   const handleCopy = async () => {
     try {
@@ -102,6 +111,8 @@ export default function QuoteDetailClient({
               </div>
 
               <SaveImageButton quote={quote} />
+
+              <LikeButton quoteId={quote.id} />
 
               <Link
                 href="/quotes"

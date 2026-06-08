@@ -7,19 +7,23 @@ import { categories } from '@/data/categories';
 import type { CategoryId } from '@/data/categories';
 import type { Quote } from '@/types/quote';
 import { useFavorites } from '@/hooks/useFavorites';
+import { useReadQuotes } from '@/hooks/useReadQuotes';
+import { useStreak } from '@/hooks/useStreak';
 import { useOnboarding } from '@/hooks/useOnboarding';
 import { useSwipe } from '@/hooks/useSwipe';
 import QuoteCard from '@/components/QuoteCard';
 import SkeletonCard from '@/components/SkeletonCard';
 import TodayQuoteSection from '@/components/TodayQuoteSection';
+import CollectionProgress from '@/components/CollectionProgress';
 import Toast from '@/components/Toast';
 
-type TabType = 'all' | CategoryId | 'favorites';
+type TabType = 'all' | CategoryId | 'favorites' | 'unread';
 
 const tabs = [
   { id: 'all' as TabType, label: '전체' },
   ...categories.map((c) => ({ id: c.id as TabType, label: c.label })),
   { id: 'favorites' as TabType, label: '즐겨찾기' },
+  { id: 'unread' as TabType, label: '안읽음' },
 ];
 
 interface QuotesClientProps {
@@ -38,6 +42,8 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
   const searchDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const { isFavorite, toggleFavorite, favoriteIds, isHydrated } = useFavorites();
+  const { readIds, readCount, isRead } = useReadQuotes();
+  const streak = useStreak();
   const { isFirstVisit, completeOnboarding } = useOnboarding();
 
   // 즐겨찾기 토글 시 온보딩 완료 처리
@@ -86,6 +92,7 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
     let base: typeof quotes;
     if (activeTab === 'all') base = quotes;
     else if (activeTab === 'favorites') base = quotes.filter((q) => favoriteIds.includes(q.id));
+    else if (activeTab === 'unread') base = quotes.filter((q) => !readIds.includes(q.id));
     else base = getQuotesByCategory(activeTab as CategoryId);
 
     if (!searchQuery.trim()) return base;
@@ -98,13 +105,14 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
   }, [activeTab, favoriteIds, searchQuery]);
 
   const tabCount = useMemo(() => {
-    const counts: Record<TabType, number> = { all: quotes.length, favorites: 0 } as Record<TabType, number>;
+    const counts: Record<TabType, number> = { all: quotes.length, favorites: 0, unread: 0 } as Record<TabType, number>;
     categories.forEach((c) => {
       counts[c.id] = getQuotesByCategory(c.id).length;
     });
     counts['favorites'] = favoriteIds.length;
+    counts['unread'] = quotes.filter((q) => !readIds.includes(q.id)).length;
     return counts;
-  }, [favoriteIds]);
+  }, [favoriteIds, readIds]);
 
   const handleSearchChange = useCallback((value: string) => {
     if (searchDebounceRef.current) clearTimeout(searchDebounceRef.current);
@@ -112,6 +120,7 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
   }, []);
 
   const isFavoritesEmpty = activeTab === 'favorites' && isHydrated && filteredQuotes.length === 0 && !searchQuery;
+  const isUnreadEmpty = activeTab === 'unread' && isHydrated && filteredQuotes.length === 0 && !searchQuery;
   const isSearchEmpty = searchQuery.trim() !== '' && filteredQuotes.length === 0;
 
   // 스와이프: 현재 표시 명언의 quotes 배열 인덱스
@@ -160,6 +169,15 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
 
       {/* 명언 목록 섹션 */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        {/* 수집 진행률 */}
+        {isHydrated && (
+          <CollectionProgress
+            collected={readCount}
+            total={quotes.length}
+            streakDays={streak.isHydrated ? streak.currentStreak : 0}
+          />
+        )}
+
         <div className="text-center mb-8 sm:mb-10">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white tracking-tight">
             명언 모음
@@ -227,6 +245,18 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
                         {tabCount['favorites']}
                       </span>
                     )
+                  ) : tab.id === 'unread' ? (
+                    isHydrated && (
+                      <span
+                        className={`ml-1.5 text-xs px-1.5 py-0.5 rounded-full ${
+                          isActive
+                            ? 'bg-white/20 dark:bg-gray-900/20 text-white dark:text-gray-900'
+                            : 'bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400'
+                        }`}
+                      >
+                        {tabCount['unread']}
+                      </span>
+                    )
                   ) : (
                     <span
                       className={`ml-1.5 text-xs px-1.5 py-0.5 rounded-full ${
@@ -251,6 +281,24 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
             {Array.from({ length: 12 }).map((_, i) => (
               <SkeletonCard key={i} />
             ))}
+          </div>
+        ) : isUnreadEmpty ? (
+          <div className="flex flex-col items-center justify-center py-20 gap-4 text-center">
+            <div className="w-20 h-20 rounded-full bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-sm flex items-center justify-center">
+              <svg className="w-10 h-10 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <div className="space-y-1">
+              <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">모든 명언을 읽었습니다!</p>
+              <p className="text-gray-400 dark:text-gray-500 text-sm">총 {quotes.length}개 명언을 모두 읽었어요.</p>
+            </div>
+            <button
+              onClick={() => setActiveTab('all')}
+              className="mt-2 px-5 py-2.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl font-medium text-sm hover:bg-gray-700 dark:hover:bg-gray-100 transition-colors shadow-sm"
+            >
+              전체 명언 보기
+            </button>
           </div>
         ) : isSearchEmpty ? (
           <div className="flex flex-col items-center justify-center py-20 gap-4 text-center">
@@ -302,6 +350,7 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
                 key={quote.id}
                 quote={quote}
                 isFavorite={isFavorite(quote.id)}
+                isRead={isRead(quote.id)}
                 onToggleFavorite={toggleFavorite}
                 onCardClick={handleCardClick}
               />
