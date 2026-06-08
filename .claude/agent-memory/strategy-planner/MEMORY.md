@@ -1,0 +1,2 @@
+- [Quote Viewer 프로젝트 컨텍스트](project-quote-viewer-context.md) — 현황, 기획 문서 위치, 전략 방향 요약 (2026-05-31)
+- [사용자 프로필](user-profile.md) — 솔로 개발자, Next.js/React, 한국어 중심, 구현 공수 중시

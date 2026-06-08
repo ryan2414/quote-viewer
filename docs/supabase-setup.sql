@@ -134,3 +134,55 @@ ALTER TABLE newsletter_subscribers ADD COLUMN IF NOT EXISTS unsubscribe_token te
 
 -- push_subscriptions에 auth_token 컬럼 추가
 ALTER TABLE push_subscriptions ADD COLUMN IF NOT EXISTS auth_token text;
+
+-- =====================================================
+-- Phase 4: 사용자 즐겨찾기 동기화 (로그인 사용자)
+-- =====================================================
+
+CREATE TABLE IF NOT EXISTS user_favorites (
+  id         uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id    uuid REFERENCES auth.users(id) ON DELETE CASCADE NOT NULL,
+  quote_id   integer NOT NULL,
+  created_at timestamptz DEFAULT now() NOT NULL,
+  UNIQUE(user_id, quote_id)
+);
+
+ALTER TABLE user_favorites ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "본인 즐겨찾기 조회" ON user_favorites
+  FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "본인 즐겨찾기 추가" ON user_favorites
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE POLICY "본인 즐겨찾기 삭제" ON user_favorites
+  FOR DELETE USING (auth.uid() = user_id);
+
+CREATE INDEX IF NOT EXISTS idx_user_favorites_user_id ON user_favorites(user_id);
+
+-- =====================================================
+-- Phase 4: 사용자 명언 제출
+-- =====================================================
+
+CREATE TABLE IF NOT EXISTS quote_submissions (
+  id          uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  user_id     uuid REFERENCES auth.users(id) ON DELETE SET NULL,
+  text        text NOT NULL,
+  author      text NOT NULL,
+  category    text,
+  source      text,
+  status      text DEFAULT 'pending' CHECK (status IN ('pending', 'approved', 'rejected')) NOT NULL,
+  reviewed_at timestamptz,
+  created_at  timestamptz DEFAULT now() NOT NULL
+);
+
+ALTER TABLE quote_submissions ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "본인 제출 조회" ON quote_submissions
+  FOR SELECT USING (auth.uid() = user_id);
+
+CREATE POLICY "로그인 사용자 제출" ON quote_submissions
+  FOR INSERT WITH CHECK (auth.uid() = user_id);
+
+CREATE INDEX IF NOT EXISTS idx_quote_submissions_user_id ON quote_submissions(user_id);
+CREATE INDEX IF NOT EXISTS idx_quote_submissions_status ON quote_submissions(status);

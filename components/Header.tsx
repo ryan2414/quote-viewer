@@ -19,6 +19,7 @@ export default function Header() {
     { href: '/quotes', label: '명언', shortLabel: '명언' },
     { href: '/scriptures', label: '성경 구절', shortLabel: '성경' },
     { href: '/today', label: '기록', shortLabel: '기록' },
+    ...(user ? [{ href: '/profile', label: '프로필', shortLabel: '나' }] : []),
   ];
 
   return (

@@ -1,0 +1,108 @@
+{
+  "nav": {
+    "quotes": "Quotes",
+    "scriptures": "Scriptures",
+    "history": "History",
+    "profile": "Profile",
+    "login": "Login",
+    "logout": "Logout",
+    "submit": "Submit"
+  },
+  "home": {
+    "title": "Quote Viewer — Start your day with quotes and scriptures",
+    "description": "Get daily inspiration from great thinkers and scriptures. Bookmark, collect, and share — enrich your day with Quote Viewer."
+  },
+  "quotes": {
+    "title": "Quote Collection",
+    "search": "Search quotes or authors...",
+    "allTab": "All",
+    "favoritesTab": "Favorites",
+    "unreadTab": "Unread",
+    "noResults": "No results found",
+    "emptyFavorites": "No favorite quotes yet",
+    "emptyUnread": "You've read all quotes!",
+    "copy": "Copy",
+    "copied": "Copied!",
+    "saveImage": "Save Image",
+    "like": "Like",
+    "favorite": "Favorite",
+    "viewList": "View List",
+    "prevQuote": "Previous",
+    "nextQuote": "Next",
+    "relatedQuotes": "Related Quotes",
+    "shareKakao": "Share on KakaoTalk",
+    "shareX": "Share on X"
+  },
+  "profile": {
+    "title": "My Profile",
+    "loginRequired": "Login required",
+    "loginRequiredDesc": "Please log in to view your profile.",
+    "loginButton": "Log In",
+    "stats": "Activity Stats",
+    "favoritesCount": "Favorites",
+    "readCount": "Quotes Read",
+    "streak": "Current Streak",
+    "longestStreak": "Longest Streak",
+    "totalDays": "Total Days",
+    "myFavorites": "My Favorites",
+    "noFavorites": "No favorites yet.",
+    "days": "days",
+    "logoutButton": "Log Out",
+    "accountSection": "Account"
+  },
+  "submit": {
+    "title": "Submit a Quote",
+    "subtitle": "Share your favorite quote with the community",
+    "textLabel": "Quote Text",
+    "textPlaceholder": "Enter the quote (at least 10 characters)",
+    "authorLabel": "Author",
+    "authorPlaceholder": "Author name",
+    "categoryLabel": "Category",
+    "sourceLabel": "Source (optional)",
+    "sourcePlaceholder": "Book title, URL, etc.",
+    "submitButton": "Submit",
+    "successTitle": "Submitted!",
+    "successDesc": "Your quote will be reviewed and added. Thank you!",
+    "submitAnother": "Submit another quote",
+    "loginRequired": "You need to log in to submit a quote.",
+    "errorRequired": "Please enter the quote and author.",
+    "errorMinLength": "Quote must be at least 10 characters."
+  },
+  "recommendations": {
+    "title": "Recommended for You",
+    "subtitle": "Personalized recommendations based on your favorites",
+    "loading": "Loading recommendations...",
+    "empty": "Add more favorites to get personalized recommendations.",
+    "refresh": "Get new recommendations"
+  },
+  "footer": {
+    "newsletter": "Get daily quotes",
+    "newsletterDesc": "Only today's quote — no spam",
+    "emailPlaceholder": "Enter email address",
+    "subscribe": "Subscribe",
+    "pushAlerts": "Enable daily alerts",
+    "pushEnabled": "Disable alerts",
+    "madeBy": "Made by",
+    "copyright": "© 2026 Quote Viewer"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "retry": "Retry",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel",
+    "darkMode": "Switch to dark mode",
+    "lightMode": "Switch to light mode"
+  },
+  "categories": {
+    "wisdom": "Wisdom",
+    "motivation": "Motivation",
+    "life": "Life",
+    "love": "Love",
+    "success": "Success",
+    "faith": "Faith",
+    "courage": "Courage",
+    "happiness": "Happiness"
+  }
+}

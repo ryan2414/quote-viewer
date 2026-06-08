@@ -15,6 +15,7 @@ import QuoteCard from '@/components/QuoteCard';
 import SkeletonCard from '@/components/SkeletonCard';
 import TodayQuoteSection from '@/components/TodayQuoteSection';
 import CollectionProgress from '@/components/CollectionProgress';
+import RecommendationsSection from '@/components/RecommendationsSection';
 import Toast from '@/components/Toast';
 
 type TabType = 'all' | CategoryId | 'favorites' | 'unread';
@@ -357,6 +358,11 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
             ))}
           </div>
         )}
+      </div>
+
+      {/* AI 개인화 추천 (즐겨찾기 2개 이상일 때 노출) */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pb-8">
+        <RecommendationsSection />
       </div>
 
       {toastMessage && (

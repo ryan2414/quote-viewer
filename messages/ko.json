@@ -1,0 +1,108 @@
+{
+  "nav": {
+    "quotes": "명언",
+    "scriptures": "성경 구절",
+    "history": "기록",
+    "profile": "프로필",
+    "login": "로그인",
+    "logout": "로그아웃",
+    "submit": "명언 제출"
+  },
+  "home": {
+    "title": "Quote Viewer — 매일 명언과 성경 구절로 하루를 시작하세요",
+    "description": "위인들의 명언과 성경 구절로 매일 영감을 받으세요. 즐겨찾기, 수집, 공유까지 — Quote Viewer와 함께 하루를 풍요롭게."
+  },
+  "quotes": {
+    "title": "명언 모음",
+    "search": "명언 또는 저자 검색...",
+    "allTab": "전체",
+    "favoritesTab": "즐겨찾기",
+    "unreadTab": "안읽음",
+    "noResults": "검색 결과가 없습니다",
+    "emptyFavorites": "즐겨찾기한 명언이 없습니다",
+    "emptyUnread": "모든 명언을 읽었습니다!",
+    "copy": "복사",
+    "copied": "복사됨!",
+    "saveImage": "이미지 저장",
+    "like": "좋아요",
+    "favorite": "즐겨찾기",
+    "viewList": "목록 보기",
+    "prevQuote": "이전 명언",
+    "nextQuote": "다음 명언",
+    "relatedQuotes": "같은 카테고리 명언",
+    "shareKakao": "카카오 공유",
+    "shareX": "X 공유"
+  },
+  "profile": {
+    "title": "내 프로필",
+    "loginRequired": "로그인이 필요합니다",
+    "loginRequiredDesc": "프로필 페이지를 보려면 로그인하세요.",
+    "loginButton": "로그인하기",
+    "stats": "활동 통계",
+    "favoritesCount": "즐겨찾기",
+    "readCount": "읽은 명언",
+    "streak": "연속 방문",
+    "longestStreak": "최장 스트릭",
+    "totalDays": "총 방문일",
+    "myFavorites": "내 즐겨찾기",
+    "noFavorites": "즐겨찾기한 명언이 없습니다.",
+    "days": "일",
+    "logoutButton": "로그아웃",
+    "accountSection": "계정 정보"
+  },
+  "submit": {
+    "title": "명언 제출",
+    "subtitle": "좋아하는 명언을 공유해 주세요",
+    "textLabel": "명언 본문",
+    "textPlaceholder": "명언을 입력하세요 (10자 이상)",
+    "authorLabel": "저자",
+    "authorPlaceholder": "저자 이름",
+    "categoryLabel": "카테고리",
+    "sourceLabel": "출처 (선택)",
+    "sourcePlaceholder": "책 제목, URL 등",
+    "submitButton": "제출하기",
+    "successTitle": "제출 완료!",
+    "successDesc": "검토 후 반영될 예정입니다. 감사합니다.",
+    "submitAnother": "다른 명언 제출하기",
+    "loginRequired": "명언을 제출하려면 로그인이 필요합니다.",
+    "errorRequired": "명언과 저자를 입력해 주세요.",
+    "errorMinLength": "명언은 최소 10자 이상이어야 합니다."
+  },
+  "recommendations": {
+    "title": "당신을 위한 추천",
+    "subtitle": "즐겨찾기 패턴을 분석한 개인 맞춤 추천입니다",
+    "loading": "추천 명언을 불러오는 중...",
+    "empty": "즐겨찾기를 더 추가하면 맞춤 추천이 제공됩니다.",
+    "refresh": "새 추천 받기"
+  },
+  "footer": {
+    "newsletter": "매일 명언을 받아보세요",
+    "newsletterDesc": "스팸 없이 오늘의 명언만 전달합니다",
+    "emailPlaceholder": "이메일 주소 입력",
+    "subscribe": "구독",
+    "pushAlerts": "매일 알림 받기",
+    "pushEnabled": "알림 해제",
+    "madeBy": "Made by",
+    "copyright": "© 2026 Quote Viewer"
+  },
+  "common": {
+    "loading": "로딩 중...",
+    "error": "오류가 발생했습니다",
+    "retry": "다시 시도",
+    "close": "닫기",
+    "save": "저장",
+    "cancel": "취소",
+    "darkMode": "다크 모드로 전환",
+    "lightMode": "라이트 모드로 전환"
+  },
+  "categories": {
+    "wisdom": "지혜",
+    "motivation": "동기부여",
+    "life": "삶",
+    "love": "사랑",
+    "success": "성공",
+    "faith": "믿음",
+    "courage": "용기",
+    "happiness": "행복"
+  }
+}
