@@ -3,12 +3,14 @@
 import { useRef, useState } from 'react';
 import type { Quote } from '@/types/quote';
 import { trackEvent } from '@/lib/analytics';
+import { useTranslations } from 'next-intl';
 
 interface SaveImageButtonProps {
   quote: Quote;
 }
 
 export default function SaveImageButton({ quote }: SaveImageButtonProps) {
+  const t = useTranslations('quotes');
   const [isCapturing, setIsCapturing] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -106,7 +108,7 @@ export default function SaveImageButton({ quote }: SaveImageButtonProps) {
         onClick={handleSaveImage}
         disabled={isCapturing}
         className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-green-500 hover:bg-green-600 active:bg-green-700 dark:bg-green-600 dark:hover:bg-green-500 text-white font-medium text-sm transition-all duration-150 shadow-sm hover:shadow-md disabled:opacity-60 disabled:cursor-not-allowed"
-        aria-label="명언 이미지로 저장"
+        aria-label={t('saveImageLabel')}
       >
         {isCapturing ? (
           <svg className="w-4 h-4 shrink-0 animate-spin" fill="none" viewBox="0 0 24 24" aria-hidden="true">
@@ -118,7 +120,7 @@ export default function SaveImageButton({ quote }: SaveImageButtonProps) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
         )}
-        {isCapturing ? '저장 중...' : '이미지 저장'}
+        {isCapturing ? t('saving') : t('saveImage')}
       </button>
     </>
   );

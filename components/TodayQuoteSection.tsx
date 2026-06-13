@@ -4,6 +4,7 @@ import type { Quote } from '@/types/quote';
 import { getCategoryMeta } from '@/data/categories';
 import FavoriteButton from './FavoriteButton';
 import ShareButtons from './ShareButtons';
+import { useTranslations } from 'next-intl';
 
 interface TodayQuoteSectionProps {
   quote: Quote;
@@ -22,6 +23,8 @@ export default function TodayQuoteSection({
   onShuffle,
   dayProgress,
 }: TodayQuoteSectionProps) {
+  const tHome = useTranslations('home');
+  const tQ = useTranslations('quotes');
   const category = getCategoryMeta(quote.category);
   const bgClass = category
     ? `bg-gradient-to-br ${category.gradientClass}`
@@ -33,11 +36,11 @@ export default function TodayQuoteSection({
         {/* 섹션 레이블 및 진행 표시 */}
         <div className="flex flex-col items-center gap-1">
           <p className="text-xs font-semibold tracking-widest text-gray-400 dark:text-gray-500 uppercase">
-            오늘의 명언
+            {tHome('todayQuote')}
           </p>
           {dayProgress && (
             <p className="text-xs text-gray-400 dark:text-gray-500">
-              전체 {dayProgress.total}개 중 {dayProgress.index + 1}번째
+              {tHome('quoteIndexOf', { current: dayProgress.index + 1, total: dayProgress.total })}
             </p>
           )}
         </div>
@@ -90,12 +93,12 @@ export default function TodayQuoteSection({
           />
           <div className="relative group">
             <span className="absolute -top-9 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-gray-900 dark:bg-gray-700 text-white rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none z-10">
-              클립보드에 복사
+              {tQ('copyLabel')}
             </span>
             <button
               onClick={onShare}
               className="flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 active:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-medium text-sm sm:text-base transition-all duration-150 shadow-sm hover:shadow-md focus-ring"
-              aria-label="명언 클립보드 복사"
+              aria-label={tQ('copyLabel')}
             >
               <svg
                 className="w-4 h-4 sm:w-5 sm:h-5 shrink-0"
@@ -111,7 +114,7 @@ export default function TodayQuoteSection({
                   d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
                 />
               </svg>
-              복사
+              {tQ('copy')}
             </button>
           </div>
 
@@ -119,7 +122,7 @@ export default function TodayQuoteSection({
             <button
               onClick={onShuffle}
               className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 active:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-medium text-sm sm:text-base transition-all duration-150 shadow-sm hover:shadow-md focus-ring"
-              aria-label="다른 명언 보기"
+              aria-label={tHome('anotherQuote')}
             >
               <svg
                 className="w-4 h-4 sm:w-5 sm:h-5 shrink-0"
@@ -135,7 +138,7 @@ export default function TodayQuoteSection({
                   d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
                 />
               </svg>
-              다른 명언
+              {tHome('anotherQuote')}
             </button>
           )}
         </div>

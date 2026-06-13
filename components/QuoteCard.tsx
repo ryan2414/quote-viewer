@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { QuoteCardProps } from '@/types/quote';
 import { getCategoryMeta } from '@/data/categories';
 import FavoriteButton from './FavoriteButton';
+import { useTranslations } from 'next-intl';
 
 export default function QuoteCard({
   quote,
@@ -12,8 +13,8 @@ export default function QuoteCard({
   onToggleFavorite,
   onCardClick,
 }: QuoteCardProps) {
+  const t = useTranslations('quotes');
   const router = useRouter();
-  // 카테고리 메타데이터 조회 (없으면 undefined)
   const category = getCategoryMeta(quote.category);
 
   const handleCardClick = () => {
@@ -41,7 +42,7 @@ export default function QuoteCard({
       }`}
       role="button"
       tabIndex={0}
-      aria-label={`"${quote.text}" — ${quote.author} 명언 보기`}
+      aria-label={`"${quote.text}" — ${quote.author} ${t('viewQuote')}`}
       onKeyDown={(e) => {
         /* TODO: 키보드 접근성 Enter/Space 처리 구현 */
         if (e.key === 'Enter' || e.key === ' ') {
@@ -91,7 +92,7 @@ export default function QuoteCard({
           <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
-          읽음
+          {t('read')}
         </span>
       )}
 

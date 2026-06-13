@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import { useTranslations } from 'next-intl';
 import { scriptures, getScripturesByCategory } from '@/data/scriptures';
 import { scriptureCategories } from '@/data/scriptureCategories';
 import type { ScriptureCategory } from '@/types/scripture';
@@ -16,14 +17,15 @@ import MilestoneToast from '@/components/MilestoneToast';
 
 type TabType = 'all' | ScriptureCategory;
 
-const tabs: { id: TabType; label: string }[] = [
-  { id: 'all', label: '전체' },
-  ...scriptureCategories.map((c) => ({ id: c.id as TabType, label: c.label })),
-];
-
 export default function ScripturesPage() {
+  const t = useTranslations('scriptures');
   const [activeTab, setActiveTab] = useState<TabType>('all');
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
+  const tabs: { id: TabType; label: string }[] = [
+    { id: 'all', label: t('allTab') },
+    ...scriptureCategories.map((c) => ({ id: c.id as TabType, label: c.label })),
+  ];
 
   const { user, isLoading: authLoading } = useAuth();
   const { streakDays } = useDrawTimer();
@@ -49,10 +51,10 @@ export default function ScripturesPage() {
         {/* 페이지 헤더 */}
         <div className="text-center mb-8 sm:mb-10">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white tracking-tight">
-            성경 구절
+            {t('title')}
           </h1>
           <p className="mt-2 text-sm sm:text-base text-gray-500 dark:text-gray-400">
-            말씀으로 하루를 시작하세요
+            {t('subtitle')}
           </p>
         </div>
 
@@ -65,7 +67,7 @@ export default function ScripturesPage() {
         <div className="mb-10 sm:mb-14">
           <div className="flex items-center gap-4 mb-8">
             <div className="flex-1 h-px bg-gray-200 dark:bg-gray-800" />
-            <span className="text-sm font-semibold text-gray-400 dark:text-gray-500 shrink-0">내 수집함</span>
+            <span className="text-sm font-semibold text-gray-400 dark:text-gray-500 shrink-0">{t('myCollection')}</span>
             <div className="flex-1 h-px bg-gray-200 dark:bg-gray-800" />
           </div>
 
@@ -113,10 +115,10 @@ export default function ScripturesPage() {
                 />
               </svg>
               <p className="text-base font-semibold text-gray-400 dark:text-gray-500">
-                아직 수집한 말씀이 없어요
+                {t('emptyCollection')}
               </p>
               <p className="mt-1 text-sm text-gray-300 dark:text-gray-600">
-                위의 뽑기 버튼으로 첫 말씀을 수집해 보세요
+                {t('emptyCollectionDesc')}
               </p>
             </div>
           )}
@@ -125,7 +127,7 @@ export default function ScripturesPage() {
           {user && !collectionLoading && collectedScriptures.length > 0 && (
             <>
               <p className="text-sm text-gray-400 dark:text-gray-500 mb-6">
-                총 <span className="font-semibold text-gray-600 dark:text-gray-300">{collectedScriptures.length}</span>개 수집
+                {t('collectionCount', { count: collectedScriptures.length })}
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6">
                 {collectedScriptures.map((scripture) => (
@@ -143,7 +145,7 @@ export default function ScripturesPage() {
         {/* 구분선 */}
         <div className="flex items-center gap-4 mb-8 sm:mb-10">
           <div className="flex-1 h-px bg-gray-200 dark:bg-gray-800" />
-          <span className="text-sm font-semibold text-gray-400 dark:text-gray-500 shrink-0">모든 구절</span>
+          <span className="text-sm font-semibold text-gray-400 dark:text-gray-500 shrink-0">{t('allCategories')}</span>
           <div className="flex-1 h-px bg-gray-200 dark:bg-gray-800" />
         </div>
 
@@ -165,16 +167,16 @@ export default function ScripturesPage() {
               />
             </svg>
             <p className="text-base font-semibold text-gray-400 dark:text-gray-500">
-              로그인 후 모든 구절을 확인할 수 있어요
+              {t('loginPrompt')}
             </p>
             <p className="mt-1 text-sm text-gray-300 dark:text-gray-600 mb-6">
-              {scriptures.length}개의 성경 구절이 기다리고 있어요
+              {t('waitingCount', { count: scriptures.length })}
             </p>
             <button
               onClick={() => setIsAuthModalOpen(true)}
               className="px-5 py-2.5 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-medium hover:bg-gray-700 dark:hover:bg-gray-100 transition-colors shadow-sm"
             >
-              로그인하기
+              {t('loginButton')}
             </button>
           </div>
         )}
@@ -186,7 +188,7 @@ export default function ScripturesPage() {
               <div
                 className="flex overflow-x-auto gap-2 pb-2 scrollbar-hide"
                 role="tablist"
-                aria-label="성경 구절 카테고리 필터"
+                aria-label={t('categoryFilter')}
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
                 {tabs.map((tab) => {

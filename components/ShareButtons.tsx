@@ -1,6 +1,7 @@
 'use client';
 
 import { trackEvent } from '@/lib/analytics';
+import { useTranslations } from 'next-intl';
 
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://quote-viewer-pi.vercel.app').replace(/\/$/, '');
 const KAKAO_APP_KEY = process.env.NEXT_PUBLIC_KAKAO_APP_KEY;
@@ -12,6 +13,7 @@ interface ShareButtonsProps {
 }
 
 export default function ShareButtons({ quoteText, author, quoteId }: ShareButtonsProps) {
+  const t = useTranslations('quotes');
   const shareUrl = quoteId ? `${SITE_URL}/quotes/${quoteId}` : SITE_URL;
   const shareText = `"${quoteText}" — ${author}`;
 
@@ -48,7 +50,7 @@ export default function ShareButtons({ quoteText, author, quoteId }: ShareButton
         <button
           onClick={handleKakaoShare}
           className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#FEE500] hover:bg-[#F5DC00] active:bg-[#ECD300] text-[#3C1E1E] font-medium text-sm transition-all duration-150 shadow-sm hover:shadow-md"
-          aria-label="카카오톡으로 공유"
+          aria-label={t('shareKakao')}
         >
           <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
             <path d="M12 3C6.48 3 2 6.48 2 10.8c0 2.72 1.45 5.14 3.68 6.65L4.8 21l4.26-2.27c.93.26 1.9.4 2.94.4 5.52 0 10-3.48 10-7.8S17.52 3 12 3z" />
@@ -61,7 +63,7 @@ export default function ShareButtons({ quoteText, author, quoteId }: ShareButton
       <button
         onClick={handleXShare}
         className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-black hover:bg-gray-800 active:bg-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 text-white font-medium text-sm transition-all duration-150 shadow-sm hover:shadow-md"
-        aria-label="X(트위터)로 공유"
+        aria-label={t('shareX')}
       >
         <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />

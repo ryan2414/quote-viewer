@@ -17,15 +17,9 @@ import TodayQuoteSection from '@/components/TodayQuoteSection';
 import CollectionProgress from '@/components/CollectionProgress';
 import RecommendationsSection from '@/components/RecommendationsSection';
 import Toast from '@/components/Toast';
+import { useTranslations } from 'next-intl';
 
 type TabType = 'all' | CategoryId | 'favorites' | 'unread';
-
-const tabs = [
-  { id: 'all' as TabType, label: '전체' },
-  ...categories.map((c) => ({ id: c.id as TabType, label: c.label })),
-  { id: 'favorites' as TabType, label: '즐겨찾기' },
-  { id: 'unread' as TabType, label: '안읽음' },
-];
 
 interface QuotesClientProps {
   todayQuote: Quote;
@@ -33,8 +27,17 @@ interface QuotesClientProps {
 }
 
 export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClientProps) {
+  const tQ = useTranslations('quotes');
+  const tCat = useTranslations('categories');
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabType>('all');
+
+  const tabs = [
+    { id: 'all' as TabType, label: tQ('allTab') },
+    ...categories.map((c) => ({ id: c.id as TabType, label: tCat(c.id as Parameters<typeof tCat>[0]) })),
+    { id: 'favorites' as TabType, label: tQ('favoritesTab') },
+    { id: 'unread' as TabType, label: tQ('unreadTab') },
+  ];
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [selectedQuoteId, setSelectedQuoteId] = useState<number | undefined>(initialQuoteId);
   const [searchQuery, setSearchQuery] = useState('');
@@ -150,7 +153,7 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
             <svg className="w-4 h-4 shrink-0" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
             </svg>
-            마음에 드는 명언을 저장해보세요
+            {tQ('favoriteLabel')}
           </div>
         </div>
       )}
@@ -181,10 +184,10 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
 
         <div className="text-center mb-8 sm:mb-10">
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 dark:text-white tracking-tight">
-            명언 모음
+            {tQ('title')}
           </h1>
           <p className="mt-2 text-sm sm:text-base text-gray-500 dark:text-gray-400">
-            마음에 와닿는 명언을 찾아 저장해 보세요
+            {tQ('subtitle')}
           </p>
         </div>
 
@@ -202,10 +205,10 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
             </svg>
             <input
               type="search"
-              placeholder="명언 또는 저자 검색..."
+              placeholder={tQ('search')}
               onChange={(e) => handleSearchChange(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 shadow-sm"
-              aria-label="명언 검색"
+              aria-label={tQ('searchLabel')}
             />
           </div>
         </div>
@@ -215,7 +218,7 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
           <div
             className="flex overflow-x-auto gap-2 pb-2"
             role="tablist"
-            aria-label="명언 카테고리 필터"
+            aria-label={tQ('categoryFilter')}
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {tabs.map((tab) => {
@@ -291,14 +294,14 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
               </svg>
             </div>
             <div className="space-y-1">
-              <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">모든 명언을 읽었습니다!</p>
-              <p className="text-gray-400 dark:text-gray-500 text-sm">총 {quotes.length}개 명언을 모두 읽었어요.</p>
+              <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">{tQ('emptyUnread')}</p>
+              <p className="text-gray-400 dark:text-gray-500 text-sm">{tQ('emptyUnreadDesc', { count: quotes.length })}</p>
             </div>
             <button
               onClick={() => setActiveTab('all')}
               className="mt-2 px-5 py-2.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl font-medium text-sm hover:bg-gray-700 dark:hover:bg-gray-100 transition-colors shadow-sm"
             >
-              전체 명언 보기
+              {tQ('viewAllQuotes')}
             </button>
           </div>
         ) : isSearchEmpty ? (
@@ -307,8 +310,8 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             <div className="space-y-1">
-              <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">검색 결과가 없습니다</p>
-              <p className="text-gray-400 dark:text-gray-500 text-sm">다른 검색어를 입력해 보세요.</p>
+              <p className="text-lg font-semibold text-gray-700 dark:text-gray-300">{tQ('noResults')}</p>
+              <p className="text-gray-400 dark:text-gray-500 text-sm">{tQ('noResultsDesc')}</p>
             </div>
           </div>
         ) : isFavoritesEmpty ? (
@@ -331,17 +334,17 @@ export default function QuotesClient({ todayQuote, initialQuoteId }: QuotesClien
             </div>
             <div className="space-y-1">
               <p className="text-lg sm:text-xl font-semibold text-gray-700 dark:text-gray-300">
-                즐겨찾기한 명언이 없습니다
+                {tQ('emptyFavorites')}
               </p>
               <p className="text-gray-400 dark:text-gray-500 text-sm sm:text-base">
-                마음에 드는 명언의 하트 버튼을 눌러 저장하세요.
+                {tQ('noFavoritesDesc')}
               </p>
             </div>
             <button
               onClick={() => setActiveTab('all')}
               className="mt-2 px-5 py-2.5 bg-gray-900 dark:bg-white text-white dark:text-gray-900 rounded-xl font-medium text-sm hover:bg-gray-700 dark:hover:bg-gray-100 transition-colors shadow-sm"
             >
-              전체 명언 보기
+              {tQ('viewAllQuotes')}
             </button>
           </div>
         ) : (

@@ -9,6 +9,7 @@ import FavoriteButton from './FavoriteButton';
 import ShareButtons from './ShareButtons';
 import SaveImageButton from './SaveImageButton';
 import LikeButton from './LikeButton';
+import { useTranslations } from 'next-intl';
 
 interface QuoteDetailClientProps {
   quote: Quote;
@@ -27,6 +28,7 @@ export default function QuoteDetailClient({
   categoryLabel,
   categoryBadgeClass,
 }: QuoteDetailClientProps) {
+  const t = useTranslations('quotes');
   const { isFavorite, toggleFavorite } = useFavorites();
   const { markRead } = useReadQuotes();
   const [copied, setCopied] = useState(false);
@@ -96,17 +98,17 @@ export default function QuoteDetailClient({
 
               <div className="relative group">
                 <span className="absolute -top-9 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-gray-900 dark:bg-gray-700 text-white rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none z-10">
-                  {copied ? '복사됨!' : '클립보드에 복사'}
+                  {copied ? t('copied') : t('copyLabel')}
                 </span>
                 <button
                   onClick={handleCopy}
                   className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-500 hover:bg-blue-600 active:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-medium text-sm transition-all duration-150 shadow-sm hover:shadow-md"
-                  aria-label="명언 클립보드 복사"
+                  aria-label={t('copyLabel')}
                 >
                   <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
                   </svg>
-                  {copied ? '복사됨!' : '복사'}
+                  {copied ? t('copied') : t('copy')}
                 </button>
               </div>
 
@@ -118,7 +120,7 @@ export default function QuoteDetailClient({
                 href="/quotes"
                 className="px-5 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 active:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-medium text-sm transition-all duration-150 shadow-sm hover:shadow-md"
               >
-                목록 보기
+                {t('viewList')}
               </Link>
             </div>
 
@@ -128,7 +130,7 @@ export default function QuoteDetailClient({
         </div>
 
         {/* 이전/다음 네비게이션 */}
-        <nav className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-800" aria-label="명언 이동">
+        <nav className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-800" aria-label={t('quoteNav')}>
           {prevId !== null ? (
             <Link
               href={`/quotes/${prevId}`}
@@ -137,7 +139,7 @@ export default function QuoteDetailClient({
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-              이전 명언
+              {t('prevQuote')}
             </Link>
           ) : (
             <div />
@@ -152,7 +154,7 @@ export default function QuoteDetailClient({
               href={`/quotes/${nextId}`}
               className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
             >
-              다음 명언
+              {t('nextQuote')}
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
@@ -164,9 +166,9 @@ export default function QuoteDetailClient({
 
         {/* 관련 명언 */}
         {relatedQuotes.length > 0 && (
-          <section aria-label="관련 명언">
+          <section aria-label={t('relatedQuotes')}>
             <h2 className="text-sm font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-4">
-              같은 카테고리 명언
+              {t('relatedQuotes')}
             </h2>
             <ul className="space-y-3">
               {relatedQuotes.map((related) => (

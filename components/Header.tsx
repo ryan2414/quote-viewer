@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Sun, Moon, LogIn, LogOut } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useTheme } from '@/hooks/useTheme';
 import { useAuth } from '@/hooks/useAuth';
 import AuthModal from '@/components/AuthModal';
@@ -14,12 +15,14 @@ export default function Header() {
   const { theme, toggleTheme } = useTheme();
   const { user, isLoading, signOut } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const tNav = useTranslations('nav');
+  const tCommon = useTranslations('common');
 
   const navLinks = [
-    { href: '/quotes', label: '명언', shortLabel: '명언' },
-    { href: '/scriptures', label: '성경 구절', shortLabel: '성경' },
-    { href: '/today', label: '기록', shortLabel: '기록' },
-    ...(user ? [{ href: '/profile', label: '프로필', shortLabel: '나' }] : []),
+    { href: '/quotes', label: tNav('quotes') },
+    { href: '/scriptures', label: tNav('scriptures') },
+    { href: '/today', label: tNav('history') },
+    ...(user ? [{ href: '/profile', label: tNav('profile') }] : []),
   ];
 
   return (
@@ -60,7 +63,7 @@ export default function Header() {
         {/* 다크모드 토글 버튼 */}
         <button
           onClick={toggleTheme}
-          aria-label={theme === 'dark' ? '라이트 모드로 전환' : '다크 모드로 전환'}
+          aria-label={theme === 'dark' ? tCommon('lightMode') : tCommon('darkMode')}
           className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white transition-colors duration-150"
         >
           {theme === 'dark'
@@ -84,7 +87,7 @@ export default function Header() {
             </div>
             <button
               onClick={signOut}
-              aria-label="로그아웃"
+              aria-label={tNav('logout')}
               className="w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white transition-colors duration-150"
             >
               <LogOut className="w-4 h-4" />
@@ -94,11 +97,11 @@ export default function Header() {
           /* 비로그인 상태: 로그인 버튼 */
           <button
             onClick={() => setIsAuthModalOpen(true)}
-            aria-label="로그인"
+            aria-label={tNav('login')}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-white transition-colors duration-150"
           >
             <LogIn className="w-4 h-4" />
-            <span className="hidden sm:inline">로그인</span>
+            <span className="hidden sm:inline">{tNav('login')}</span>
           </button>
         )}
 
@@ -123,8 +126,7 @@ export default function Header() {
                     }`}
                     aria-current={isActive ? 'page' : undefined}
                   >
-                    <span className="hidden sm:inline">{link.label}</span>
-                    <span className="sm:hidden">{link.shortLabel}</span>
+                    {link.label}
                   </Link>
                 </li>
               );

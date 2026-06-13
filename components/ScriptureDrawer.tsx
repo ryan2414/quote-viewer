@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
+import { useTranslations } from 'next-intl';
 import { drawScripture, getRarityForCategory, formatReference, formatReferenceEn, type Rarity } from '@/data/scriptures';
 import { getScriptureCategoryMeta } from '@/data/scriptureCategories';
 import { useDrawTimer } from '@/hooks/useDrawTimer';
@@ -15,6 +16,7 @@ interface ScriptureDrawerProps {
 }
 
 export default function ScriptureDrawer({ collectedIds, addToCollection }: ScriptureDrawerProps) {
+  const t = useTranslations('scriptures');
   const [phase, setPhase] = useState<Phase>('idle');
   const [scripture, setScripture] = useState<Scripture | null>(null);
   const [drawnRarity, setDrawnRarity] = useState<Rarity | null>(null);
@@ -41,9 +43,9 @@ export default function ScriptureDrawer({ collectedIds, addToCollection }: Scrip
     const text = `"${scripture.text}" — ${refKo} (개역개정)\n"${scripture.text_en}" — ${refEn} (NIV)`;
     try {
       await navigator.clipboard.writeText(text);
-      setToastMessage('구절이 클립보드에 복사되었습니다!');
+      setToastMessage(t('copySuccess'));
     } catch {
-      setToastMessage('복사에 실패했습니다. 다시 시도해 주세요.');
+      setToastMessage(t('copyError'));
     }
     setTimeout(() => setToastMessage(null), 3000);
   }, [scripture]);
@@ -65,12 +67,10 @@ export default function ScriptureDrawer({ collectedIds, addToCollection }: Scrip
           </div>
           <div className="space-y-2">
             <p className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-gray-100">
-              오늘의 말씀을 뽑아보세요
+              {t('drawerTitle')}
             </p>
             <p className="text-sm text-gray-400 dark:text-gray-500">
-              {canDraw
-                ? '버튼을 누르면 무작위로 말씀을 선택해 드립니다'
-                : '3시간마다 한 번씩 뽑을 수 있습니다'}
+              {canDraw ? t('drawerDesc') : t('drawerCooldown')}
             </p>
           </div>
 
@@ -83,7 +83,7 @@ export default function ScriptureDrawer({ collectedIds, addToCollection }: Scrip
               className="flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 active:from-blue-700 active:to-indigo-700 text-white font-semibold text-base sm:text-lg shadow-md hover:shadow-lg transition-all duration-200 focus-ring"
             >
               <span aria-hidden="true" className="text-xl">✦</span>
-              말씀 뽑기
+              {t('drawButton')}
             </button>
           ) : (
             <DrawTimer remainingMs={remainingMs} />
@@ -105,7 +105,7 @@ export default function ScriptureDrawer({ collectedIds, addToCollection }: Scrip
           </div>
           <div className="space-y-2">
             <p className="text-lg sm:text-xl font-semibold text-gray-800 dark:text-gray-100">
-              말씀을 선택하는 중...
+              {t('drawingButton')}
             </p>
             <p className="text-sm text-gray-400 dark:text-gray-500 opacity-0 select-none">
               placeholder
@@ -116,7 +116,7 @@ export default function ScriptureDrawer({ collectedIds, addToCollection }: Scrip
             className="flex items-center gap-2 px-8 py-4 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold text-base sm:text-lg shadow-md animate-drawShake animate-drawGlow cursor-not-allowed"
           >
             <span aria-hidden="true" className="text-xl">✦</span>
-            말씀 뽑기
+            {t('drawButton')}
           </button>
         </div>
       )}
@@ -164,6 +164,7 @@ function RevealedScripture({
   onShare: () => void;
   onRedraw: () => void;
 }) {
+  const t = useTranslations('scriptures');
   const category = getScriptureCategoryMeta(scripture.category);
   const refKo = formatReference(scripture);
   const refEn = formatReferenceEn(scripture);
@@ -216,18 +217,18 @@ function RevealedScripture({
           <button
             onClick={onShare}
             className="flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 active:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-medium text-sm sm:text-base transition-all duration-150 shadow-sm hover:shadow-md focus-ring"
-            aria-label="구절 클립보드 복사"
+            aria-label={t('copyLabel')}
           >
             <svg className="w-4 h-4 sm:w-5 sm:h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
             </svg>
-            복사
+            {t('copy')}
           </button>
           {/* 쿨다운 중 다시 뽑기 버튼 비활성화 */}
           <button
             onClick={canRedraw ? onRedraw : undefined}
             disabled={!canRedraw}
-            title={canRedraw ? undefined : '3시간 후 다시 뽑을 수 있습니다'}
+            title={canRedraw ? undefined : t('cooldownMessage')}
             className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl border-2 font-medium text-sm sm:text-base transition-all duration-150 focus-ring ${
               canRedraw
                 ? 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white'
@@ -235,7 +236,7 @@ function RevealedScripture({
             }`}
           >
             <span aria-hidden="true">↻</span>
-            다시 뽑기
+            {t('redrawButton')}
           </button>
         </div>
       </div>

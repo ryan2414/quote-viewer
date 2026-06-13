@@ -1,6 +1,9 @@
 import Link from 'next/link';
+import { getTranslations } from 'next-intl/server';
 
-export default function HeroSection() {
+export default async function HeroSection() {
+  const t = await getTranslations('landing');
+
   return (
     <section className="relative overflow-hidden bg-white dark:bg-gray-950 pt-20 pb-24 sm:pt-28 sm:pb-32">
       {/* 배경 그라디언트 장식 */}
@@ -12,14 +15,14 @@ export default function HeroSection() {
         {/* 뱃지 */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-100 dark:border-indigo-900/50 text-indigo-700 dark:text-indigo-300 text-sm font-medium mb-8 animate-fadeIn">
           <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 dark:bg-indigo-400" />
-          매일 새로운 명언
+          {t('heroSubtitle')}
         </div>
 
         {/* 헤드라인 */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-gray-900 dark:text-white tracking-tight leading-tight mb-6 animate-quoteReveal">
-          하루를 바꾸는{' '}
+          {t('heroTitle1')}{' '}
           <span className="bg-linear-to-r from-indigo-600 to-violet-600 dark:from-indigo-400 dark:to-violet-400 bg-clip-text text-transparent">
-            한 마디
+            {t('heroTitle2')}
           </span>
         </h1>
 
@@ -28,8 +31,7 @@ export default function HeroSection() {
           className="text-lg sm:text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto mb-10 animate-slideUp"
           style={{ animationDelay: '0.1s' }}
         >
-          위인들의 지혜로운 명언과 성경 구절로 매일 하루를 시작하세요.
-          즐겨찾기하고, 수집하고, 영감을 나눠보세요.
+          {t('heroDesc')}
         </p>
 
         {/* CTA 버튼 */}
@@ -41,13 +43,13 @@ export default function HeroSection() {
             href="/quotes"
             className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold text-base hover:bg-gray-700 dark:hover:bg-gray-100 transition-colors duration-150"
           >
-            오늘의 명언 보기
+            {t('heroCtaQuotes')}
           </Link>
           <Link
             href="/scriptures"
             className="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 font-semibold text-base hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-150"
           >
-            성경 보기
+            {t('heroCtaScriptures')}
           </Link>
         </div>
 

@@ -4,6 +4,7 @@ import { type Rarity } from '@/data/scriptures';
 import { ScriptureCardProps } from '@/types/scripture';
 import { getScriptureCategoryMeta } from '@/data/scriptureCategories';
 import { formatReference, formatReferenceEn } from '@/data/scriptures';
+import { useTranslations } from 'next-intl';
 
 // 희귀도별 테두리 + 그림자 — Tailwind 동적 클래스 금지, 전체 문자열 하드코딩
 const rarityStyle: Record<Rarity, string> = {
@@ -18,6 +19,7 @@ interface Props extends ScriptureCardProps {
 }
 
 export default function ScriptureCard({ scripture, rarity, blurred = false }: Props) {
+  const t = useTranslations('scriptures');
   const category = getScriptureCategoryMeta(scripture.category);
   const refKo = formatReference(scripture);
   const refEn = formatReferenceEn(scripture);
@@ -57,12 +59,12 @@ export default function ScriptureCard({ scripture, rarity, blurred = false }: Pr
             )}
             {rarity === 'rare' && (
               <span className="inline-block text-xs px-2 py-0.5 rounded-full font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">
-                ⭐⭐ 희귀
+                ⭐⭐ {t('rarityRare')}
               </span>
             )}
             {rarity === 'legendary' && (
               <span className="inline-block text-xs px-2 py-0.5 rounded-full font-medium bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300">
-                ⭐⭐⭐ 전설
+                ⭐⭐⭐ {t('rarityLegendary')}
               </span>
             )}
           </div>
@@ -86,7 +88,7 @@ export default function ScriptureCard({ scripture, rarity, blurred = false }: Pr
               d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"
             />
           </svg>
-          <span className="text-xs font-medium text-gray-400 dark:text-gray-500">뽑기로 획득</span>
+          <span className="text-xs font-medium text-gray-400 dark:text-gray-500">{t('drawToGet')}</span>
         </div>
       )}
     </article>

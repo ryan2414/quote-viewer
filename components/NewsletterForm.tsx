@@ -1,10 +1,12 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 type Status = 'idle' | 'loading' | 'success' | 'error' | 'duplicate';
 
 export default function NewsletterForm() {
+  const t = useTranslations('footer');
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<Status>('idle');
   const [message, setMessage] = useState('');
@@ -23,18 +25,18 @@ export default function NewsletterForm() {
 
       if (res.status === 409) {
         setStatus('duplicate');
-        setMessage(data.error ?? '이미 구독 중입니다.');
+        setMessage(data.error ?? t('alreadySubscribed'));
       } else if (!res.ok) {
         setStatus('error');
-        setMessage(data.error ?? '오류가 발생했습니다.');
+        setMessage(data.error ?? t('networkError'));
       } else {
         setStatus('success');
-        setMessage(data.message ?? '구독이 완료되었습니다!');
+        setMessage(data.message ?? t('subscribeSuccess'));
         setEmail('');
       }
     } catch {
       setStatus('error');
-      setMessage('네트워크 오류가 발생했습니다.');
+      setMessage(t('networkError'));
     }
   };
 
@@ -55,17 +57,17 @@ export default function NewsletterForm() {
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        placeholder="이메일 주소 입력"
+        placeholder={t('emailPlaceholder')}
         required
         className="flex-1 px-4 py-2.5 rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-sm text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-900 dark:focus:ring-white"
-        aria-label="구독 이메일"
+        aria-label={t('emailPlaceholder')}
       />
       <button
         type="submit"
         disabled={status === 'loading'}
         className="px-4 py-2.5 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-sm font-semibold hover:bg-gray-700 dark:hover:bg-gray-100 transition-colors disabled:opacity-60 whitespace-nowrap"
       >
-        {status === 'loading' ? '구독 중...' : '구독'}
+        {status === 'loading' ? t('subscribing') : t('subscribe')}
       </button>
       {(status === 'error' || status === 'duplicate') && (
         <p className="text-xs text-red-500 dark:text-red-400 sm:col-span-2">{message}</p>

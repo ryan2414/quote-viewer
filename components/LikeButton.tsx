@@ -1,12 +1,14 @@
 'use client';
 
 import { useLike } from '@/hooks/useLike';
+import { useTranslations } from 'next-intl';
 
 interface LikeButtonProps {
   quoteId: number;
 }
 
 export default function LikeButton({ quoteId }: LikeButtonProps) {
+  const t = useTranslations('quotes');
   const { count, liked, isLoading, toggle } = useLike(quoteId);
 
   return (
@@ -18,7 +20,7 @@ export default function LikeButton({ quoteId }: LikeButtonProps) {
           ? 'bg-rose-500 hover:bg-rose-600 active:bg-rose-700 text-white'
           : 'bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200'
       }`}
-      aria-label={liked ? '좋아요 취소' : '좋아요'}
+      aria-label={liked ? t('unlike') : t('like')}
       aria-pressed={liked}
     >
       <svg
@@ -35,7 +37,7 @@ export default function LikeButton({ quoteId }: LikeButtonProps) {
           d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
         />
       </svg>
-      <span>{isLoading ? '...' : count > 0 ? count : liked ? '1' : '좋아요'}</span>
+      <span>{isLoading ? '...' : count > 0 ? count : liked ? '1' : t('like')}</span>
     </button>
   );
 }

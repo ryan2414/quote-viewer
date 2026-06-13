@@ -1,34 +1,35 @@
-const features = [
-  {
-    icon: '📖',
-    title: '매일 새로운 명언',
-    description:
-      '날짜 기반으로 매일 자동으로 바뀌는 명언을 받아보세요. 53개의 엄선된 위인 명언이 기다립니다.',
-  },
-  {
-    icon: '📚',
-    title: '성경 구절 수집',
-    description:
-      '3시간마다 성경 구절을 뽑아 수집하세요. 일반/레어/레전더리 등급으로 수집의 재미를 더했습니다.',
-  },
-  {
-    icon: '⭐',
-    title: '즐겨찾기 & 컬렉션',
-    description:
-      '마음에 드는 명언을 즐겨찾기하고, 성경 구절 31개를 모두 수집해 컬렉션을 완성하세요.',
-  },
-];
+import { getTranslations } from 'next-intl/server';
 
-export default function FeaturesSection() {
+export default async function FeaturesSection() {
+  const t = await getTranslations('landing');
+
+  const features = [
+    {
+      icon: t('feature1Icon'),
+      title: t('feature1Title'),
+      description: t('feature1Desc'),
+    },
+    {
+      icon: t('feature2Icon'),
+      title: t('feature2Title'),
+      description: t('feature2Desc'),
+    },
+    {
+      icon: t('feature3Icon'),
+      title: t('feature3Title'),
+      description: t('feature3Desc'),
+    },
+  ];
+
   return (
     <section className="py-20 sm:py-24 bg-gray-50 dark:bg-gray-900/40">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-14">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            왜 Quote Viewer인가요?
+            {t('featuresSectionTitle')}
           </h2>
           <p className="text-gray-500 dark:text-gray-400 text-lg max-w-xl mx-auto">
-            단순한 명언 앱이 아닙니다. 영감과 게임화 요소를 결합한 새로운 경험입니다.
+            {t('featuresSectionDesc')}
           </p>
         </div>
 

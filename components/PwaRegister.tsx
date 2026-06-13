@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -8,6 +9,8 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 export default function PwaRegister() {
+  const t = useTranslations('pwa');
+  const tCommon = useTranslations('common');
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [showBanner, setShowBanner] = useState(false);
 
@@ -55,19 +58,19 @@ export default function PwaRegister() {
         </svg>
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold text-gray-900 dark:text-white">앱으로 설치</p>
-        <p className="text-xs text-gray-500 dark:text-gray-400">홈 화면에 추가하여 빠르게 실행하세요</p>
+        <p className="text-sm font-semibold text-gray-900 dark:text-white">{t('installTitle')}</p>
+        <p className="text-xs text-gray-500 dark:text-gray-400">{t('installDesc')}</p>
       </div>
       <div className="flex items-center gap-1 shrink-0">
         <button
           onClick={handleInstall}
           className="px-3 py-1.5 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-gray-900 text-xs font-semibold hover:bg-gray-700 dark:hover:bg-gray-100 transition-colors"
         >
-          설치
+          {t('installButton')}
         </button>
         <button
           onClick={handleDismiss}
-          aria-label="닫기"
+          aria-label={tCommon('close')}
           className="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
         >
           ×

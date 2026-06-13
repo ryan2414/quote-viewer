@@ -3,17 +3,19 @@
 import { useCallback } from 'react';
 import { useStreak } from '@/hooks/useStreak';
 import MilestoneToast from './MilestoneToast';
+import { useTranslations } from 'next-intl';
 
-const MILESTONE_MESSAGES: Record<number, { emoji: string; message: string }> = {
-  3:   { emoji: '🔥', message: '3일 연속 방문! 좋은 습관이 시작되었어요.' },
-  7:   { emoji: '⚡', message: '7일 연속! 일주일을 함께했군요.' },
-  14:  { emoji: '🌟', message: '2주 연속 방문! 명언이 일상이 되었네요.' },
-  30:  { emoji: '🏆', message: '30일 연속! 대단해요, 진정한 독자입니다.' },
-  60:  { emoji: '💎', message: '60일 연속! 믿을 수 없이 대단합니다.' },
-  100: { emoji: '🚀', message: '100일 연속! 전설의 기록을 세웠습니다!' },
+const MILESTONE_EMOJIS: Record<number, string> = {
+  3:   '🔥',
+  7:   '⚡',
+  14:  '🌟',
+  30:  '🏆',
+  60:  '💎',
+  100: '🚀',
 };
 
 export default function StreakBadge() {
+  const t = useTranslations('streak');
   const streak = useStreak();
 
   const handleCloseToast = useCallback(() => {
@@ -23,25 +25,26 @@ export default function StreakBadge() {
 
   if (!streak.isHydrated || streak.currentStreak < 1) return null;
 
-  const milestone = streak.justMilestone ? MILESTONE_MESSAGES[streak.justMilestone] : null;
+  const milestoneEmoji = streak.justMilestone ? MILESTONE_EMOJIS[streak.justMilestone] : null;
+  const milestoneKey = streak.justMilestone ? (`day${streak.justMilestone}` as Parameters<typeof t>[0]) : null;
 
   return (
     <>
       {/* 스트릭 배지 */}
       <div
-        title={`연속 방문 ${streak.currentStreak}일 | 최장 ${streak.longestStreak}일`}
+        title={t('badgeLabel', { count: streak.currentStreak, longest: streak.longestStreak })}
         className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 text-orange-600 dark:text-orange-400 text-xs font-semibold select-none cursor-default"
-        aria-label={`연속 방문 ${streak.currentStreak}일`}
+        aria-label={t('badgeAriaLabel', { count: streak.currentStreak })}
       >
         <span aria-hidden="true">🔥</span>
         <span>{streak.currentStreak}일</span>
       </div>
 
       {/* 마일스톤 토스트 */}
-      {milestone && (
+      {milestoneKey && milestoneEmoji && (
         <MilestoneToast
-          emoji={milestone.emoji}
-          message={milestone.message}
+          emoji={milestoneEmoji}
+          message={t(milestoneKey)}
           onClose={handleCloseToast}
         />
       )}

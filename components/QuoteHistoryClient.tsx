@@ -1,26 +1,29 @@
 'use client';
 
 import Link from 'next/link';
+import { useTranslations } from 'next-intl';
 import { useQuoteHistory } from '@/hooks/useQuoteHistory';
 import { getQuoteById, getTodayQuote } from '@/data/quotes';
 
 const DAYS_KO = ['일', '월', '화', '수', '목', '금', '토'];
 
-function formatDate(dateStr: string): { display: string; dayKo: string } {
+function formatDate(dateStr: string, today: string, yesterday: string): { display: string; dayKo: string } {
   const d = new Date(`${dateStr}T00:00:00`);
-  const today = new Date().toISOString().slice(0, 10);
-  const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
   const dayKo = DAYS_KO[d.getDay()];
   const mmdd = `${d.getMonth() + 1}/${d.getDate()}`;
 
-  if (dateStr === today) return { display: '오늘', dayKo };
-  if (dateStr === yesterday) return { display: '어제', dayKo };
+  if (dateStr === today) return { display: 'today', dayKo };
+  if (dateStr === yesterday) return { display: 'yesterday', dayKo };
   return { display: mmdd, dayKo };
 }
 
 export default function QuoteHistoryClient() {
+  const t = useTranslations('history');
   const todayQuote = getTodayQuote();
   const { history } = useQuoteHistory(todayQuote.id);
+
+  const today = new Date().toISOString().slice(0, 10);
+  const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
 
   if (history.length === 0) {
     return (
@@ -28,7 +31,7 @@ export default function QuoteHistoryClient() {
         <svg className="w-14 h-14 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        <p className="text-gray-500 dark:text-gray-400">히스토리를 불러오는 중...</p>
+        <p className="text-gray-500 dark:text-gray-400">{t('loading')}</p>
       </div>
     );
   }
@@ -37,17 +40,18 @@ export default function QuoteHistoryClient() {
     <div className="max-w-2xl mx-auto px-5 py-12 sm:px-8 sm:py-16">
       <div className="mb-10 text-center">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">
-          최근 7일 명언 기록
+          {t('title')}
         </h1>
         <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">
-          매일 하루 한 명언씩 저장됩니다
+          {t('subtitle')}
         </p>
       </div>
 
       <ol className="relative border-l border-gray-200 dark:border-gray-800 space-y-8 ml-4">
         {history.map((entry, idx) => {
           const quote = getQuoteById(entry.quoteId);
-          const { display, dayKo } = formatDate(entry.date);
+          const { display, dayKo } = formatDate(entry.date, today, yesterday);
+          const displayLabel = display === 'today' ? t('today') : display === 'yesterday' ? t('yesterday') : display;
 
           return (
             <li key={entry.date} className="ml-6">
@@ -60,7 +64,7 @@ export default function QuoteHistoryClient() {
 
               {/* 날짜 레이블 */}
               <time className="mb-2 flex items-center gap-2 text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
-                <span className={idx === 0 ? 'text-gray-900 dark:text-white' : ''}>{display}</span>
+                <span className={idx === 0 ? 'text-gray-900 dark:text-white' : ''}>{displayLabel}</span>
                 <span>({dayKo})</span>
                 <span className="font-normal normal-case tracking-normal">{entry.date}</span>
               </time>
@@ -77,7 +81,7 @@ export default function QuoteHistoryClient() {
                 </Link>
               ) : (
                 <div className="p-5 bg-gray-50 dark:bg-gray-900 rounded-2xl border border-dashed border-gray-200 dark:border-gray-800">
-                  <p className="text-sm text-gray-400 dark:text-gray-500">명언을 찾을 수 없습니다</p>
+                  <p className="text-sm text-gray-400 dark:text-gray-500">{t('notFound')}</p>
                 </div>
               )}
             </li>
@@ -90,7 +94,7 @@ export default function QuoteHistoryClient() {
           href="/quotes"
           className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-medium text-sm hover:bg-gray-700 dark:hover:bg-gray-100 transition-colors shadow-sm"
         >
-          오늘의 명언 보기
+          {t('viewTodayQuote')}
         </Link>
       </div>
     </div>

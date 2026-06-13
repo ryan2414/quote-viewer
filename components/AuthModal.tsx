@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useAuth } from '@/hooks/useAuth';
 
 interface AuthModalProps {
@@ -10,6 +11,7 @@ interface AuthModalProps {
 }
 
 export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
+  const t = useTranslations('auth');
   const { signInWithGoogle } = useAuth();
 
   // ESC 키로 모달 닫기
@@ -38,7 +40,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
         {/* 닫기 버튼 */}
         <button
           onClick={onClose}
-          aria-label="모달 닫기"
+          aria-label={t('closeModal')}
           className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
         >
           <X className="w-4 h-4" />
@@ -47,10 +49,10 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
         {/* 타이틀 */}
         <div className="mb-6">
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-            말씀 도감에 오신 걸 환영해요
+            {t('welcomeTitle')}
           </h2>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            로그인하면 모든 기기에서 수집 기록이 저장됩니다
+            {t('welcomeDesc')}
           </p>
         </div>
 
@@ -78,7 +80,7 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
               d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
             />
           </svg>
-          구글로 계속하기
+          {t('googleSignIn')}
         </button>
       </div>
     </div>

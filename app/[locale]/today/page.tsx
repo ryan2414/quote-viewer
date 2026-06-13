@@ -1,11 +1,20 @@
 import type { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
 import QuoteHistoryClient from '@/components/QuoteHistoryClient';
 
-export const metadata: Metadata = {
-  title: '최근 7일 명언 기록',
-  description: '매일 하루 한 명언씩 기록된 최근 7일간의 명언 히스토리를 확인하세요.',
-  alternates: { canonical: '/today' },
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: 'history' });
+  return {
+    title: t('title'),
+    description: t('subtitle'),
+    alternates: { canonical: '/today' },
+  };
+}
 
 export default function TodayPage() {
   return <QuoteHistoryClient />;

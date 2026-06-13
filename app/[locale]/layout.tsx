@@ -7,6 +7,7 @@ import { getMessages } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import PwaRegister from "@/components/PwaRegister";
+import ThemeScript from "@/components/ThemeScript";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { routing } from "@/i18n/routing";
@@ -14,27 +15,6 @@ import "../globals.css";
 
 const KAKAO_APP_KEY = process.env.NEXT_PUBLIC_KAKAO_APP_KEY;
 const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://quote-viewer.vercel.app').replace(/\/$/, '');
-
-function serializeJsonLd(data: object): string {
-  return JSON.stringify(data)
-    .replace(/</g, '\\u003c')
-    .replace(/>/g, '\\u003e')
-    .replace(/&/g, '\\u0026');
-}
-
-const websiteJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'Quote Viewer',
-  url: SITE_URL,
-  description: '매일 새로운 명언으로 영감을 받으세요. 위인들의 지혜로운 말을 한국어와 영어로 만나보세요.',
-  inLanguage: 'ko',
-  potentialAction: {
-    '@type': 'SearchAction',
-    target: { '@type': 'EntryPoint', urlTemplate: `${SITE_URL}/quotes` },
-    'query-input': 'required name=search_term_string',
-  },
-};
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -97,27 +77,24 @@ export default async function LocaleLayout({
       suppressHydrationWarning
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(!t&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark');}}catch(e){}})();` }} />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: serializeJsonLd(websiteJsonLd) }}
-        />
         {/* hreflang: 언어별 URL 동등성 선언 */}
         <link rel="alternate" hrefLang="ko" href={SITE_URL} />
         <link rel="alternate" hrefLang="en" href={`${SITE_URL}/en`} />
         <link rel="alternate" hrefLang="x-default" href={SITE_URL} />
       </head>
       <body suppressHydrationWarning className="min-h-full flex flex-col bg-white dark:bg-gray-950 text-gray-900 dark:text-white transition-colors duration-200">
+        {/* FOUC 방지: useServerInsertedHTML로 React 렌더 트리 밖에서 주입 */}
+        <ThemeScript />
         <NextIntlClientProvider messages={messages}>
           <Header />
           <div className="flex-1">
             {children}
           </div>
           <Footer />
+          <PwaRegister />
         </NextIntlClientProvider>
         <Analytics />
         <GoogleAnalytics />
-        <PwaRegister />
         {KAKAO_APP_KEY && (
           <Script
             src="https://t1.kakaocdn.net/kakaojs/2.7.4/kakao.min.js"

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { QuoteDisplayProps } from '@/types/quote';
 import { getCategoryMeta } from '@/data/categories';
 import FavoriteButton from './FavoriteButton';
+import { useTranslations } from 'next-intl';
 
 export default function QuoteDisplay({
   quote,
@@ -12,7 +13,7 @@ export default function QuoteDisplay({
   onShare,
   onNavigateToList,
 }: QuoteDisplayProps) {
-  // 카테고리 메타데이터 조회
+  const t = useTranslations('quotes');
   const category = getCategoryMeta(quote.category);
 
   return (
@@ -78,12 +79,12 @@ export default function QuoteDisplay({
           {/* 클립보드 복사 버튼: 라이트/다크 모드 모두 파란색 계열 유지 */}
           <div className="relative group">
             <span className="absolute -top-9 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-gray-900 dark:bg-gray-700 text-white rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-150 pointer-events-none z-10">
-              클립보드에 복사
+              {t('copyLabel')}
             </span>
             <button
               onClick={onShare}
               className="flex items-center gap-2 px-6 py-3 rounded-xl bg-blue-500 hover:bg-blue-600 active:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 dark:active:bg-blue-700 text-white font-medium text-sm sm:text-base transition-all duration-150 shadow-sm hover:shadow-md dark:shadow-blue-900/30 focus-ring"
-              aria-label="명언 클립보드 복사"
+              aria-label={t('copyLabel')}
             >
               <svg
                 className="w-4 h-4 sm:w-5 sm:h-5 shrink-0"
@@ -99,7 +100,7 @@ export default function QuoteDisplay({
                   d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
                 />
               </svg>
-              복사
+              {t('copy')}
             </button>
           </div>
 
@@ -109,14 +110,14 @@ export default function QuoteDisplay({
               onClick={onNavigateToList}
               className="px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 active:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:active:bg-gray-600 text-gray-700 dark:text-gray-200 font-medium text-sm sm:text-base transition-all duration-150 shadow-sm hover:shadow-md focus-ring"
             >
-              목록 보기
+              {t('viewList')}
             </button>
           ) : (
             <Link
               href="/quotes"
               className="px-6 py-3 rounded-xl bg-gray-100 hover:bg-gray-200 active:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:active:bg-gray-600 text-gray-700 dark:text-gray-200 font-medium text-sm sm:text-base transition-all duration-150 shadow-sm hover:shadow-md focus-ring"
             >
-              목록 보기
+              {t('viewList')}
             </Link>
           )}
         </div>

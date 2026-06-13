@@ -1,33 +1,34 @@
-const steps = [
-  {
-    number: '01',
-    title: '매일 방문하기',
-    description:
-      '하루를 시작할 때 Quote Viewer를 열어보세요. 오늘의 명언이 새롭게 기다리고 있습니다.',
-  },
-  {
-    number: '02',
-    title: '저장하고 공유하기',
-    description:
-      '마음에 드는 명언은 즐겨찾기로 저장하거나 클립보드에 복사해 친구에게 공유하세요.',
-  },
-  {
-    number: '03',
-    title: '성경 구절 수집하기',
-    description:
-      '3시간마다 성경 구절을 뽑고, 31개를 모두 수집하면 컬렉션을 완성할 수 있습니다.',
-  },
-];
+import { getTranslations } from 'next-intl/server';
 
-export default function HowItWorksSection() {
+export default async function HowItWorksSection() {
+  const t = await getTranslations('landing');
+
+  const steps = [
+    {
+      number: '01',
+      title: t('step1Title'),
+      description: t('step1Desc'),
+    },
+    {
+      number: '02',
+      title: t('step2Title'),
+      description: t('step2Desc'),
+    },
+    {
+      number: '03',
+      title: t('step3Title'),
+      description: t('step3Desc'),
+    },
+  ];
+
   return (
     <section className="py-20 sm:py-24 bg-white dark:bg-gray-950">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-14">
           <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-            어떻게 사용하나요?
+            {t('howTitle')}
           </h2>
-          <p className="text-gray-500 dark:text-gray-400 text-lg">단 3단계로 시작하세요.</p>
+          <p className="text-gray-500 dark:text-gray-400 text-lg">{t('howDesc')}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

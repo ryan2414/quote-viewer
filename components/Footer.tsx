@@ -3,6 +3,7 @@
 import NewsletterForm from './NewsletterForm';
 import PushNotificationButton from './PushNotificationButton';
 import { trackEvent } from '@/lib/analytics';
+import { useTranslations } from 'next-intl';
 
 const BMC_URL = process.env.NEXT_PUBLIC_BMC_URL;
 
@@ -23,14 +24,15 @@ function BmcButton() {
 }
 
 export default function Footer() {
+  const t = useTranslations('footer');
   return (
     <footer className="border-t border-gray-200/80 dark:border-gray-800/80 bg-white dark:bg-gray-950">
       {/* 뉴스레터 + 푸시 알림 섹션 */}
       <div className="border-b border-gray-100 dark:border-gray-800">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div>
-            <p className="text-sm font-semibold text-gray-800 dark:text-white">매일 명언을 받아보세요</p>
-            <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">스팸 없이 오늘의 명언만 전달합니다</p>
+            <p className="text-sm font-semibold text-gray-800 dark:text-white">{t('newsletter')}</p>
+            <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{t('newsletterDesc')}</p>
           </div>
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
             <NewsletterForm />
@@ -43,9 +45,9 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-5 sm:py-6 flex flex-col sm:flex-row items-center justify-between gap-3">
         {/* 저작권 + 제작자 */}
         <p className="text-xs sm:text-sm text-gray-400 dark:text-gray-500 text-center sm:text-left">
-          © 2026 Quote Viewer
+          {t('copyright')}
           <span className="mx-1.5" aria-hidden="true">·</span>
-          Made by{' '}
+          {t('madeBy')}{' '}
           <a
             href="https://github.com/ryan2414"
             target="_blank"
