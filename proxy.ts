@@ -29,8 +29,8 @@ function withSupabaseSession(request: NextRequest, response: NextResponse): Next
 export async function proxy(request: NextRequest) {
   const { pathname } = new URL(request.url)
 
-  // API 라우트 — i18n 처리 건너뜀, Supabase 세션만 갱신
-  if (pathname.startsWith('/api/')) {
+  // API·인증 라우트 — i18n 처리 건너뜀, Supabase 세션만 갱신
+  if (pathname.startsWith('/api/') || pathname.startsWith('/auth/')) {
     return withSupabaseSession(request, NextResponse.next({ request }))
   }
 
